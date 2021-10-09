@@ -118,4 +118,4 @@ async def on_message(message):
       mausam = weather()
       await message.content.send(mausam)
 
-client.run('ODg5MDk4MDU2NjA2Mjk4MTcy.YUcTFw.FaYG7N3CLz0SrxAQ_ebsRFCnii8')
+client.run('BOT TOKEN')
