@@ -85,37 +85,4 @@ async def on_message(message):
     embed.set_footer(text="")
     await message.channel.send(embed=embed)    
 
-  if message.content.startswith('$weather'):
-    async def weather():
-      city: str
-      city_name = city
-      complete_url = base_url + "appid=" + api_key + "&q=" + city_name
-      response = requests.get(complete_url)
-      x = response.json()
-      channel = message.channel
-
-      if x["cod"] != "404":
-        async with channel.typing():
-          y = x["main"]
-          current_temperature = y["temp"]
-          current_temperature_celsiuis = str(round(current_temperature - 273.15))
-          current_pressure = y["pressure"]
-          current_humidity = y["humidity"]
-          z = x["weather"]
-          weather_description = z[0]["description"]
-          weather_description = z[0]["description"]
-          embed = discord.Embed(title=f"Weather in {city_name}",
-                                color=guild.me.top_role.color,
-                                timestamp=message.created_at,)
-          embed.add_field(name="Descripition", value=f"**{weather_description}**", inline=False)
-          embed.add_field(name="Temperature(C)", value=f"**{current_temperature_celsiuis}°C**", inline=False)
-          embed.add_field(name="Humidity(%)", value=f"**{current_humidity}%**", inline=False)
-          embed.add_field(name="Atmospheric Pressure(hPa)", value=f"**{current_pressure}hPa**", inline=False)
-          embed.set_thumbnail(url="https://i.ibb.co/CMrsxdX/weather.png")
-          await channel.send(embed=embed)
-      else:
-          await channel.send("City not found.")
-      mausam = weather()
-      await message.content.send(mausam)
-
 client.run('BOT TOKEN')
