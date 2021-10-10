@@ -41,7 +41,7 @@ async def on_message(message):
     await message.channel.send('Hello there! I am a friendly bot made by the owner of the server @abhishek')
 
   if message.content.startswith('$name'):
-    await message.channel.send('Hello my name is Mr_bot')
+    await message.channel.send('Hello my name is AxC 777')
 
   if message.content.startswith('$version'):
     my_embed = discord.Embed(title = "Current version", description = "The bot is in version 0.1, currently in Pre-Alpha stage of development", color = 0x00ff00)
@@ -52,7 +52,7 @@ async def on_message(message):
     await message.channel.send(embed = my_embed)
 
   if message.content.startswith('$info'):
-    my_embed = discord.Embed(title = "Name:", description = "Mr_Bot", color = 0x00ff00)
+    my_embed = discord.Embed(title = "Name:", description = "AxC 777", color = 0x00ff00)
     my_embed.add_field(name ="Description:", value ="A Genral Purpose Discord Bot, currently in it's infancy, made by abhishek", inline=False)
     my_embed.add_field(name = "Version Info:", value="0.1 (Pre-Alpha)" )
     my_embed.set_footer(text="")
