@@ -7,7 +7,7 @@ import json
 from keep_alive import keep_alive
 
 client = discord.Client()
-BOT_TOKEN = 'ODg5MDk4MDU2NjA2Mjk4MTcy.YUcTFw.h9-vSBtD5oqIwLuA5wbb6QbrPNs'
+BOT_TOKEN = 'BOT TOKEN'
 base_url = "http://api.openweathermap.org/data/2.5/weather?"
 cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact'
 
