@@ -10,8 +10,8 @@ from keep_alive import *
 
 
 client = discord.Client()
-api_key = "53f581dd965b2b09bd6c2ebcb5ce41fd"
-base_url = "http://api.openweathermap.org/data/2.5/weather?q=Lucknow&appid=53f581dd965b2b09bd6c2ebcb5ce41fd"
+api_key = "api_key"
+base_url = "http://api.openweathermap.org/data/2.5/weather?q=Lucknow&appid='apikey'"
 cmd1 = commands.Bot(command_prefix='$')
 cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)'
 
@@ -107,4 +107,4 @@ async def on_message(message):
 
 
 keep_alive()
-client.run('ODg5MDk4MDU2NjA2Mjk4MTcy.YUcTFw.eo4kgZ1c-5_rxK119JCeBy4MyUM')
+client.run('Bot Token')
