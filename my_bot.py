@@ -4,12 +4,23 @@ from discord import *
 from discord.ext import commands
 import requests
 import json
-from keep_alive import keep_alive
+from pprint import pprint
+from weather import *
+from keep_alive import *
+
 
 client = discord.Client()
-BOT_TOKEN = 'BOT TOKEN'
-base_url = "http://api.openweathermap.org/data/2.5/weather?"
-cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact'
+api_key = "53f581dd965b2b09bd6c2ebcb5ce41fd"
+base_url = "http://api.openweathermap.org/data/2.5/weather?q=Lucknow&appid=53f581dd965b2b09bd6c2ebcb5ce41fd"
+cmd1 = commands.Bot(command_prefix='$')
+cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)'
+
+#The bot is listening to commands and nerdy stuff
+@client.event
+async def on_ready():
+   await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f'{cmd1}[location]'))
+
+        
 
 #functions to be performed
 def get_quote():
@@ -29,7 +40,7 @@ def get_joke():
 #on ready function
 @client.event
 async def on_ready():
-  print('We have logged in as {0.user}'.format(client))
+  print('ICBM launched by {0.user}, expect destruction soon (of your brain). Dimag Tikka Order being made...'.format(client))
 
 #executables
 @client.event
@@ -41,11 +52,11 @@ async def on_message(message):
     await message.channel.send('Hello there! I am a friendly bot made by the owner of the server @abhishek')
 
   if message.content.startswith('$name'):
-    await message.channel.send('Hello my name is AxC 777')
+    await message.channel.send('Hello my name is Mr_bot')
 
   if message.content.startswith('$version'):
     my_embed = discord.Embed(title = "Current version", description = "The bot is in version 0.1, currently in Pre-Alpha stage of development", color = 0x00ff00)
-    my_embed.add_field(name ="version code:", value ="v 0.1", inline=False)
+    my_embed.add_field(name ="version code:", value ="v0.1", inline=False)
     my_embed.add_field(name = "Date Released:", value="Sep 19", inline=False)
     my_embed.set_footer(text="")
     my_embed.set_author(name="@abhishek")
@@ -85,5 +96,15 @@ async def on_message(message):
     embed.set_footer(text="")
     await message.channel.send(embed=embed)    
 
+  if message.content.startswith('$weather'):
+            location = message.content.replace("$weather ", '')
+            url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid=53f581dd965b2b09bd6c2ebcb5ce41fd&units=metric'
+            try:
+                data = parse_data(json.loads(requests.get(url).content)['main'])
+                await message.channel.send(embed=weather_message(data, location))
+            except KeyError:
+                await message.channel.send(embed=error_message(location))
+
+
 keep_alive()
-client.run(BOT_TOKEN)
+client.run('ODg5MDk4MDU2NjA2Mjk4MTcy.YUcTFw.eo4kgZ1c-5_rxK119JCeBy4MyUM')
