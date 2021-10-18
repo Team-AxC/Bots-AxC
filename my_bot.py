@@ -9,12 +9,16 @@ from weather import *
 from keep_alive import *
 
 
+
 client = discord.Client()
-api_key = "API_KEY"
+client_id = 'BOT_TOKEN'
+api_key = "API KEY"
 cmd1 = commands.Bot(command_prefix='$')
-cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)'
+cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n||$secret_command (Type `$hint` for a hint)||'
 
 
+
+        
 
 #functions to be performed
 def get_quote():
@@ -61,7 +65,7 @@ async def on_message(message):
 
   if message.content.startswith('$info'):
     my_embed = discord.Embed(title = "Name:", description = "AxC 777", color = 0x00ff00)
-    my_embed.add_field(name ="Description:", value ="A Genral Purpose Discord Bot, currently in it's infancy, made by Abhishek", inline=False)
+    my_embed.add_field(name ="Description:", value ="A General Purpose Discord Bot, currently in it's infancy, made by Abhishek", inline=False)
     my_embed.add_field(name = "Version Info:", value="0.1 (Pre-Alpha)" )
     my_embed.set_footer(text="")
     my_embed.set_author(name="abhishek#4309")
@@ -87,11 +91,22 @@ async def on_message(message):
     joke = get_joke()
     await message.channel.send(joke)
 
+  if message.content.startswith('$bhaiyon_aur_behnon'):
+    my_embed = discord.Embed(title = "100% Real Modi Ji Announcement:", description="Mitron")
+    my_embed.add_field(name = "Ghoshna:", value = "Asha Drugs lene ke baad mujhe yah ahsaas hua hai ki Asha nashe bahut achche nashe hain aur cringe hona bahut zaroori hai. **Isliye aaj Asha Coins launch hone jaa rahe hain, aur Bharat ki aadhikarik mudra ab Asha Coins hi rahegi.**", inline=False)
+    my_embed.add_field(name = "Dhanyavaad!", value = "(Sirf Bharat vassiyon ke liye)", inline = False)
+    await message.channel.send(embed = my_embed)
+
   if message.content.startswith('$cat_fact'):
     data = requests.get('https://catfact.ninja/fact').json()
     embed = discord.Embed(title=f'Random Cat Fact Number: **{data["length"]}**', description=f'Cat Fact: {data["fact"]}', colour=0x400080)
     embed.set_footer(text="")
-    await message.channel.send(embed=embed)    
+    await message.channel.send(embed=embed)   
+
+  if message.content.startswith('$hint'):
+    my_embed = discord.Embed(title='Hint for the secret command', description='NTlhNzBkNGEzZjU3NjdkNmRiZWE0MGVjYzlmNGZjYzk5MmZmYzJhMmNiYjhhZjE5ODkyYmVhOTVjMDI0ZmEzMA==') 
+    my_embed.add_field(name='Hint for the secret code #2', value="It's 64 not 69, whole heatedly loved by 16 exponents",inline=False)
+    await message.channel.send(embed=my_embed)
 
   if message.content.startswith('$weather'):
             location = message.content.replace("$weather ", '')
@@ -103,5 +118,5 @@ async def on_message(message):
                 await message.channel.send(embed=error_message(location))
 
 
-#keep_alive()
-client.run('Bot Token')
+keep_alive()
+client.run(client_id)
