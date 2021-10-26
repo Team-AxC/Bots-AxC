@@ -9,7 +9,7 @@ from weather import *
 from keep_alive import *
 
 client = discord.Client()
-my_secret = os.environ['TOKEN']
+my_secret = 'BOT TOKEN'
 api_key = "53f581dd965b2b09bd6c2ebcb5ce41fd"
 cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n||$secret_command (Type `$hint` for a hint)||\n'
 
