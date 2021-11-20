@@ -11,7 +11,7 @@ from keep_alive import *
 client = discord.Client()
 my_secret = os.environ['TOKEN']
 api_key = "53f581dd965b2b09bd6c2ebcb5ce41fd"
-cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n||$secret_command (Type `$hint` for a hint)||\n'
+cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n$convert [original temperature unit] [desired temperature unit] [numeral temperature value] e.g. `$convert F C 212` \n||$secret_command (Type `$hint` for a hint)||\n'
 
 music_cmds = "`?play [with song/music composition name]` (the bot will automatically join your voice channel in the server, and the song/musical composition will be added to the queue)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [with song/musical composition name]` (to loop music)\n`?disconnect` (to disconnect the bot from the voice channel)"
 
