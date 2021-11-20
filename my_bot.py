@@ -9,11 +9,11 @@ from weather import *
 from keep_alive import *
 
 client = discord.Client()
-my_secret = 'BOT TOKEN'
+my_secret = os.environ['TOKEN']
 api_key = "53f581dd965b2b09bd6c2ebcb5ce41fd"
 cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n||$secret_command (Type `$hint` for a hint)||\n'
 
-music_cmds = '`?play [with music name]` (the bot will automatically join your voice channel in the server, and the music will be added to the queue)\n`?queue` (will work after 2 songs are added to the queue)\n`?skip` (to go to the next song of the queue)\n`?pause` (to pause)\n`?resume` (to resume)\n`?stop` (to stop the song)\n `?url [with url of YouTube video]` (to play the sound of a youtube video)\n`?disconnect` (to disconnect the bot from the voice channel)'
+music_cmds = "`?play [with song/music composition name]` (the bot will automatically join your voice channel in the server, and the song/musical composition will be added to the queue)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [with song/musical composition name]` (to loop music)\n`?disconnect` (to disconnect the bot from the voice channel)"
 
 #functions to be performed
 def get_quote():
@@ -26,6 +26,11 @@ def get_quote():
   # https://official-joke-api.appspot.com/random_ten'''
 
 def get_joke():
+  # random_joker = randrange(1,5)
+  # if random_joker <= 3:
+  #   response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist&type=single")
+  # elif random_joker == 4:
+  #   response = requests.get("https://official-joke-api.appspot.com/random_ten")
   response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist&type=single")
   json_data = json.loads(response.text)
   joke = json_data["joke"]
@@ -104,6 +109,12 @@ async def on_message(message):
     my_embed.add_field(name='.', value="add the squares of each number and perform a *secret operation*",inline=False)
     await message.channel.send(embed=my_embed)
 
+  if message.content.startswith('$bhaiyon_aur_behnon'):
+    my_embed = discord.Embed(title = "100% Real Modi Ji Announcement:", description="Mitron")
+    my_embed.add_field(name = "Ghoshna:", value = "Asha Drugs lene ke baad mujhe yah ahsaas hua hai ki Asha nashe bahut achche nashe hain aur cringe hona bahut zaroori hai. **Isliye aaj Asha Coins launch hone jaa rahe hain, aur Bharat ki aadhikarik mudra ab Asha Coins hi rahegi.**", inline=False)
+    my_embed.add_field(name = "Dhanyavaad!", value = "(Sirf Bharat vassiyon ke liye)", inline = False)
+    await message.channel.send(embed = my_embed)
+
 
   if message.content.startswith('$weather'):
     location = message.content.replace("$weather ", '')
@@ -113,6 +124,109 @@ async def on_message(message):
       await message.channel.send(embed=weather_message(data, location))
     except KeyError:
       await message.channel.send(embed=error_message(location))
+
+  if message.content.startswith('$convert F C '):
+    temp_value = message.content.replace("$convert F C ","")
+    try:
+      value = float(temp_value)
+      conversion = (value-32) * 5/9
+      title = discord.Embed(title = "🌡️ Temperature Conversion")
+      convert_case = "Fahrenheit to Celsius"
+
+      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°C**", inline=False)
+      title.set_footer(text = "Formula used: C = (F-32) ⨉ 5/9")
+
+
+      await message.channel.send(embed = title)
+
+    except ValueError:
+      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+
+  if message.content.startswith('$convert F K '):
+    temp_value = message.content.replace("$convert F K ","")
+    try:
+      value = float(temp_value)
+      conversion = ((value-32) * 5/9) + 273.15
+      title = discord.Embed(title = "🌡️ Temperature Conversion")
+      convert_case = "Fahrenheit to kelvin"
+
+      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion} K**", inline=False)
+      title.set_footer(text = "Formula used: K = (F-32) ⨉ 5/9 + 273.15")
+
+
+      await message.channel.send(embed = title)
+
+    except ValueError:
+      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+
+  if message.content.startswith('$convert C F '):
+    temp_value = message.content.replace("$convert C F ","")
+    try:
+      value = float(temp_value)
+      conversion = (9/5 * value) + 32
+      title = discord.Embed(title = "🌡️ Temperature Conversion")
+      convert_case = "Celsius to Fahrenheit"
+
+      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°F**", inline=False)
+      title.set_footer(text = "Formula used: F = (9/5 ⨉ C) + 32")
+
+
+      await message.channel.send(embed = title)
+
+    except ValueError:
+      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+
+  if message.content.startswith('$convert C K '):
+    temp_value = message.content.replace("$convert C K ","")
+    try:
+      value = float(temp_value)
+      conversion = value + 273.15
+      title = discord.Embed(title = "🌡️ Temperature Conversion")
+      convert_case = "Celsius to kelvin"
+
+      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion} K**", inline=False)
+      title.set_footer(text = "Formula used: K = C + 273.15")
+
+
+      await message.channel.send(embed = title)
+
+    except ValueError:
+      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+
+  if message.content.startswith('$convert K C '):
+    temp_value = message.content.replace("$convert K C ","")
+    try:
+      value = float(temp_value)
+      conversion = value - 273.15
+      title = discord.Embed(title = "🌡️ Temperature Conversion")
+      convert_case = "kelvin to Celsius"
+
+      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°C**", inline=False)
+      title.set_footer(text = "Formula used: C = K - 273.15")
+
+
+      await message.channel.send(embed = title)
+
+    except ValueError:
+      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+
+  if message.content.startswith('$convert K F '):
+    temp_value = message.content.replace("$convert K F ","")
+    try:
+      value = float(temp_value)
+      conversion = (9/5 * (value - 273.15)) + 32
+      title = discord.Embed(title = "🌡️ Temperature Conversion")
+      convert_case = "Celsius to Fahrenheit"
+
+      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°F**", inline=False)
+      title.set_footer(text = "Formula used: F = {9/5 ⨉ (K - 273.15)} + 32")
+
+
+      await message.channel.send(embed = title)
+
+    except ValueError:
+      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+
 
 keep_alive()
 client.run(my_secret)
