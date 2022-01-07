@@ -254,20 +254,27 @@ class music_cog(commands.Cog):
 
     @commands.command()
     async def lyrics(self, ctx, *args):
-      query = " ".join(args)
+        query = " ".join(args)
 
-      json_api = os.environ['GCS_JSON_API']
-      gcs_genius_engineid = os.environ['GCS_GENIUS_ENGINE_ID']
+        json_api_key = os.environ['GCS_JSON_API']
+        gcs_genius_engineid = os.environ['GCS_GENIUS_ENGINE_ID']
 
-      extract_lyrics = SongLyrics(json_api, gcs_genius_engineid)
+        extract_lyrics = SongLyrics(json_api_key, gcs_genius_engineid)
 
-      lyrics = extract_lyrics.get_lyrics(query)
 
-      self.my_embed = discord.Embed(title = lyrics['title'], description = lyrics['lyrics'])
-    
+        try:
+            lyrics = extract_lyrics.get_lyrics(query)
 
+            self.my_embed = discord.Embed(title = lyrics['title'], description = lyrics['lyrics'])
       
-      await ctx.send(embed = self.my_embed)
+            await ctx.send(embed = self.my_embed)
+
+        except Exception:
+            lyrics = "Lyrics not found. Try reframing the song name and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
+
+            self.my_embed = discord.Embed(title = ":octagonal_sign:  Error", description = lyrics)
+
+            await ctx.send(embed = self.my_embed)
 
       # @commands.command()
       # async def cmd(self, ctx):
