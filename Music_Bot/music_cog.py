@@ -2,9 +2,12 @@ import discord
 from discord.ext import commands
 from youtube_dl import YoutubeDL
 import youtube_dl
+from lyrics_extractor import SongLyrics
 import time
+import json
+import os
 
-music_cmds = "`?play [with song/music composition name]` (the bot will automatically join your voice channel in the server, and the song/musical composition will be added to the queue)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
+music_cmds = "`?play [with song/music composition name]` (the bot will automatically join your voice channel in the server, and the song/musical composition will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
 
 
 class music_cog(commands.Cog):
@@ -249,3 +252,32 @@ class music_cog(commands.Cog):
         await ctx.send("Queue Cleared!")
         await ctx.send("https://tenor.com/view/were-all-clear-yellowstone-were-good-to-go-ready-lets-do-this-gif-17723207")
 
+    @commands.command()
+    async def lyrics(self, ctx, *args):
+      query = " ".join(args)
+
+      json_api = os.environ['GCS_JSON_API']
+      gcs_genius_engineid = os.environ['GCS_GENIUS_ENGINE_ID']
+
+      extract_lyrics = SongLyrics(json_api, gcs_genius_engineid)
+
+      lyrics = extract_lyrics.get_lyrics(query)
+
+      self.my_embed = discord.Embed(title = lyrics['title'], description = lyrics['lyrics'])
+    
+
+      
+      await ctx.send(embed = self.my_embed)
+
+      # @commands.command()
+      # async def cmd(self, ctx):
+      #   self.my_embed = discord.Embed(title="All commands:",
+      #                                 description=music_cmds,
+      #                                 color=0x00ff00)
+      #   self.my_embed.set_author(name="author - abhishek#4309")
+      #   await ctx.send(embed=self.my_embed)
+
+
+
+
+   
