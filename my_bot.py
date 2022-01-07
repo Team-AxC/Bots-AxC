@@ -7,11 +7,12 @@ from random import randrange
 from pprint import *
 from weather import *
 from keep_alive import *
+import time
 
 client = discord.Client()
 my_secret = os.environ['TOKEN']
-api_key = "53f581dd965b2b09bd6c2ebcb5ce41fd"
-cmds = '$hello\n$name\n$version\n$info\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n$convert [original temperature unit] [desired temperature unit] [numeral temperature value] e.g. `$convert F C 212` \n||$secret_command (Type `$hint` for a hint)||\n'
+open_weather_api_key = os.environ['weather_api_key']
+cmds = '$intro\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n$convert [original temperature unit] [desired temperature unit] [numeral temperature value] e.g. `$convert F C 212` \n$spam [message], e.g. `$spam Cool Science`\n**Note:** Distance conversation in beta. Only conversion from `m` to `km` currently available. The format is the same as the temperature conversion syntax, e.g. `$convert m km 50`'
 
 music_cmds = "`?play [with song/music composition name]` (the bot will automatically join your voice channel in the server, and the song/musical composition will be added to the queue)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [with song/musical composition name]` (to loop music)\n`?disconnect` (to disconnect the bot from the voice channel)"
 
@@ -49,39 +50,27 @@ async def on_message(message):
   if message.author == client.user:
     return
 
-  if message.content.startswith('$hello'):
-    await message.channel.send('Hello there! I am a friendly, general-purpose, nerdy bot made by abhishek#4309')
+  if message.content.startswith('$intro'):
+    grogu_hello = "https://tenor.com/view/mandalorian-baby-yoda-hello-gif-19013340"
 
-  if message.content.startswith('$name'):
-    await message.channel.send('Hello my name is AxC 777')
-
-  if message.content.startswith('$version'):
-    my_embed = discord.Embed(title = "Current version", description = "The bot is in version 0.1, currently in Pre-Alpha stage of development", color = 0x00ff00)
-    my_embed.add_field(name ="version code:", value ="v0.1", inline=False)
-    my_embed.add_field(name = "Time Released:", value="Sep 21", inline=False)
-    my_embed.set_footer(text="")
-    my_embed.set_author(name="abhishek#4309")
-    await message.channel.send(embed = my_embed)
-
-  if message.content.startswith('$info'):
-    my_embed = discord.Embed(title = "Name:", description = "AxC 777", color = 0x00ff00)
-    my_embed.add_field(name ="Description:", value ="A General Purpose Discord Bot, currently in it's infancy, made by Abhishek", inline=False)
-    my_embed.add_field(name = "Version Info:", value="0.1 (Pre-Alpha)" )
-    my_embed.set_footer(text="")
-    my_embed.set_author(name="abhishek#4309")
-    await message.channel.send(embed = my_embed)
+    intro_embed = discord.Embed(title = "Essential Introduction", description = "Hey there! I am AxC 777. I am very nerdy 🤓, and made by Abhishek, in collaboration with Chinmay. I am meant to be general purpose with **a lot** of features being worked on and should be added down the road!")
+    intro_embed.add_field(name = "Version 0.2", value = "Development stage: Pre-Alpha", inline=False)
+    intro_embed.add_field(name = "Release Time", value = "September 2021", inline = False)
+    intro_embed.add_field(name = "Use the `$help` command for the list of available commands ", value = "-developers", inline=False)
+    await message.channel.send(grogu_hello)
+    await message.channel.send(embed = intro_embed)
     
   if message.content.startswith('$devinfo'):
     my_embed = discord.Embed(title = "The Creator himself:", description = "Abhishek Saxena")
-    my_embed.add_field(name = "Creator description:", value="Just a *Homo sapien* with God powers in programming", inline=False)
+    my_embed.add_field(name = "Creator description:", value="A *Homo abhishekus* (new species) with God powers in programming", inline=False)
     my_embed.add_field (name = "Co-Creator:", value = "Chinmay Krishna", inline=False)
     my_embed.add_field(name = "Creator description:", value="A person that has more knowledge in physics than our physics teacher",inline=False)
     await message.channel.send(embed = my_embed)
 
   if message.content.startswith('$help'):
     my_embed = discord.Embed(title = "All commands:", description = cmds, color = 0x00ff00)
-    my_embed.add_field(name = "\nMusic Commands for AxC 777 Music\n(make sure that the music bot is in the server)", value=music_cmds, inline=False)
-    my_embed.set_author(name="abhishek#4309")
+    my_embed.add_field(name = "\n\nMusic Commands for AxC 777 Music\n(make sure that the music bot is in the server)", value=music_cmds, inline=False)
+    my_embed.set_author(name="Abhishek Saxena (https://github.com/chinmoysir)")
     await message.channel.send(embed = my_embed)
 
   if message.content.startswith('$inspire'):
@@ -92,7 +81,7 @@ async def on_message(message):
     joke = get_joke()
     await message.channel.send(joke)
 
-  if message.content.startswith('$535'):
+  if message.content == "$535":
     my_embed = discord.Embed(title = "YOU HAVE CRACKED the **DA VINCI CODE**", description="mitron tumne kar dikhaya")
     my_embed.add_field(name = "Reward:", value = "to achieve the reward is to become the server owner tell your name [in this GOOGLE FORM](https://youtu.be/dQw4w9WgXcQ)", inline=False)
     my_embed.add_field(name = "Dhanyavaad!", value = "App hee ke vajheh se desh chal raha hai", inline = False)
@@ -118,7 +107,7 @@ async def on_message(message):
 
   if message.content.startswith('$weather'):
     location = message.content.replace("$weather ", '')
-    url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&units=metric'
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={open_weather_api_key}&units=metric'
     try:
       data = parse_data(json.loads(requests.get(url).content)['main'])
       await message.channel.send(embed=weather_message(data, location))
@@ -226,6 +215,65 @@ async def on_message(message):
 
     except ValueError:
       await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+
+  if message.content.startswith("$convert m km "):
+      temp_value = message.content.replace("$convert m km ", "")
+      try:
+        value = float(temp_value)
+        conversion = value / 1000
+        title = discord.Embed(title=":straight_ruler: ️ Distance Conversion")
+        convert_case = "meters to kilometers"
+        
+        title.add_field(name=convert_case, value=f"The converted distance is **{conversion} km**", inline=False)
+        title.set_footer(text="Formula used: km = m / 1000")
+        
+        await message.channel.send(embed=title)
+        
+      except ValueError:
+        await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper distance values without any symbols of sorts to avoid errors.")
+
+  if message.content.startswith("$spam "):
+    spammer = message.content.replace("$spam ","")
+
+    for num in range(11):
+      await message.channel.send(spammer)
+
+  if message.content.startswith("$random_spam"):
+    spam1 = "CRISPR-Cas9 Bring me a gene (A Capella Science)"
+    spam2 = "Science is Everything"
+    spam3 = "e"
+    spam4 = "Aapka kya hoga janaab-e-aali?"
+
+    x = randrange(5)
+
+    if x == 1:
+      i = 0
+      while i < 2:
+        await message.channel.send(spam1)
+        
+
+    elif x == 2:
+      i = 0
+      while i < 2:
+        await message.channel.send(spam2)
+        
+
+    elif x == 3:
+      i = 0
+      while i < 2:
+        await message.channel.send(spam3)
+        
+
+    elif x == 4:
+      i = 0
+      while i < 2:
+        await message.channel.send(spam4)
+        
+
+    else:
+      pass
+
+  
 
 
 keep_alive()
