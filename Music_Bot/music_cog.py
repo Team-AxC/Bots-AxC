@@ -3,11 +3,10 @@ from discord.ext import commands
 from youtube_dl import YoutubeDL
 import youtube_dl
 from lyrics_extractor import SongLyrics
-import time
 import json
 import os
 
-music_cmds = "`?play [with song/music composition name]` (the bot will automatically join your voice channel in the server, and the song/musical composition will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
+music_cmds = "`?play [with audio name]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
 
 
 class music_cog(commands.Cog):
@@ -88,7 +87,7 @@ class music_cog(commands.Cog):
             #you need to be connected so that the bot knows where to go
             await ctx.send("Connect to a voice channel!")
         else:
-            # if (ctx.author == "abhishek#4309"):
+            # if (ctx.author == "Abhishek Saxena (https://github.com/chinmoysir)"):
             #         await ctx.send("RICKLOCKED 🔐\nNo more rickrolls allowed")
 
             song = self.search_yt(query)
@@ -177,47 +176,56 @@ class music_cog(commands.Cog):
             vc.play(source)
 
     @commands.command()
-    async def cmd(self, ctx):
+    async def assist(self, ctx):
         self.my_embed = discord.Embed(title="All commands:",
                                       description=music_cmds,
                                       color=0x00ff00)
-        self.my_embed.set_author(name="author - abhishek#4309")
+        self.my_embed.set_author(name="author - Abhishek Saxena (https://github.com/chinmoysir)")
         await ctx.send(embed=self.my_embed)
 
     @commands.command()
     async def loop(self, ctx, *args):
-        query = " ".join(args)
-
         voice_channel = ctx.author.voice.channel
+        
         if voice_channel is None:
-            #you need to be connected so that the bot knows where to go
-            await ctx.send("Connect to a voice channel!")
+          #you need to be connected so that the bot knows where to go
+          await ctx.send("Connect to a voice channel!")
+
         else:
-            if (ctx.author == "abhishek#4309"):
-                await ctx.send("RICKLOCKED 🔐\nNo more rickrolls allowed")
-            else:
-                song = self.search_yt(query)
-                if type(song) == type(True):
-                    await ctx.send(
+          content = ctx.message.content.split()
+          # print(content)
+
+          try:
+            looping_constant = int(content[-1])
+            
+            content.pop()
+            content.pop(0)
+
+            query = " ".join(content)
+            # print(query)
+            
+
+            song = self.search_yt(query)
+
+            if type(song) == type(True):
+              await ctx.send(
                         "Could not download the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
                     )
-                else:
-                    await ctx.send("Song added to the queue")
-                    content = ctx.message.content.split()
-                    looping_constant = content[2]
 
-                    try:
-                        looping_constant = int(looping_constant)
+            else:
+              await ctx.send("Song added to the queue")
 
-                    except ValueError:
-                        await ctx.send("Improper looping constant found. Please keep the looping constant (i.e. the no of times the audio. should be looped) a whole number.)")
-
-                    for num in range(looping_constant + 1):
-                      self.music_queue.append([song, voice_channel])
+              for num in range(looping_constant + 1):
+                self.music_queue.append([song, voice_channel])
 
                        
-                    if self.is_playing == False:
-                        await self.play_music()
+              if self.is_playing == False:
+                await self.play_music()
+
+
+          except ValueError:
+            await ctx.send("Improper looping constant found. Please keep the looping constant (i.e. the no of times the audio. should be looped) a whole number.)")
+            
 
     @commands.command()
     async def loop_10(self, ctx, *args):
@@ -263,18 +271,19 @@ class music_cog(commands.Cog):
 
 
         try:
-            lyrics = extract_lyrics.get_lyrics(query)
+          lyrics = extract_lyrics.get_lyrics(query)
 
-            self.my_embed = discord.Embed(title = lyrics['title'], description = lyrics['lyrics'])
+          self.my_embed = discord.Embed(title = lyrics['title'], description = lyrics['lyrics'])
       
-            await ctx.send(embed = self.my_embed)
-
+        
         except Exception:
-            lyrics = "Lyrics not found. Try reframing the song name and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
+          lyrics = "Lyrics not found. Try reframing the song name and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
 
-            self.my_embed = discord.Embed(title = ":octagonal_sign:  Error", description = lyrics)
+          self.my_embed = discord.Embed(title = ":octagonal_sign:  Error", description = lyrics)
 
-            await ctx.send(embed = self.my_embed)
+        await ctx.send(embed = self.my_embed)
+
+      
 
       # @commands.command()
       # async def cmd(self, ctx):
@@ -283,8 +292,3 @@ class music_cog(commands.Cog):
       #                                 color=0x00ff00)
       #   self.my_embed.set_author(name="author - abhishek#4309")
       #   await ctx.send(embed=self.my_embed)
-
-
-
-
-   
