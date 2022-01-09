@@ -6,7 +6,7 @@ from lyrics_extractor import SongLyrics
 import json
 import os
 
-music_cmds = "`?play [with audio name]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
+music_cmds = "`?play [with audio name]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
 
 
 class music_cog(commands.Cog):
@@ -105,19 +105,26 @@ class music_cog(commands.Cog):
 
     @commands.command(name="queue", help="Displays the current songs in queue")
     async def queue(self, ctx):
-      if len(self.music_queue) <= 20:
+      if len(self.music_queue) <= 50:
         retval = ""
         for i in range(0, len(self.music_queue)):
             retval += self.music_queue[i][0]['title'] + "\n"
 
         print(retval)
+
         if retval != "":
             await ctx.send(retval)
         else:
             await ctx.send("No music in queue")
 
       else:
-        ctx.send("Queue too long to message")
+        retval = ""
+        for i in range(0, 51):
+            retval += self.music_queue[i][0]['title'] + "\n"
+
+        print(retval)
+
+        ctx.send("First 50 songs shown. The queue is too long to be sent at once.")
 
     @commands.command(name="skip", help="Skips the current song being played")
     async def skip(self, ctx):
@@ -128,6 +135,11 @@ class music_cog(commands.Cog):
 
     @commands.command()
     async def disconnect(self, ctx):
+        await ctx.voice_client.disconnect()
+        await ctx.send("Disconnected 🔇")
+
+    @commands.command()
+    async def dc(self, ctx):
         await ctx.voice_client.disconnect()
         await ctx.send("Disconnected 🔇")
 
