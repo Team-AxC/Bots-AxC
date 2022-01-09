@@ -32,7 +32,7 @@ async def intro(ctx):
   grogu_hello = "https://tenor.com/view/mandalorian-baby-yoda-hello-gif-19013340"
 
   intro_embed = discord.Embed(title = "Essential Introduction", description = "Hey there! I am AxC 777. I am very nerdy 🤓, and made by Abhishek, in collaboration with Chinmay. I am meant to be general purpose with **a lot** of features being worked on and should be added down the road!")
-  intro_embed.add_field(name = "Version 0.2", value = "Development stage: Pre-Alpha", inline=False)
+  intro_embed.add_field(name = "Version 0.2", value = "Development stage: Beta", inline=False)
   intro_embed.add_field(name = "Release Time", value = "September 2021", inline = False)
   intro_embed.add_field(name = "Use the `$help` command for the list of available commands ", value = "-developers", inline=False)
   await ctx.send(grogu_hello)
