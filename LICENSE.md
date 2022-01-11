@@ -7,6 +7,7 @@ thecuriousminds1729@gmail.com
 No liability or warranty is provided in any case.
 
 
+
 **Note:** Depending upon the circumstances, charges may be levied on commercial use.
 
 **Violation of any pact or section of this license may call for legal action.**
