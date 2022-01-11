@@ -6,7 +6,7 @@ from lyrics_extractor import SongLyrics
 import json
 import os
 
-music_cmds = "`?play [with audio name]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
+music_cmds = "`?play [with audio title]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio title] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio title]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
 
 
 class music_cog(commands.Cog):
@@ -289,7 +289,7 @@ class music_cog(commands.Cog):
       
         
         except Exception:
-          lyrics = "Lyrics not found. Try reframing the song name and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
+          lyrics = "Lyrics not found. Try reframing the song title and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
 
           self.my_embed = discord.Embed(title = ":octagonal_sign:  Error", description = lyrics)
 
