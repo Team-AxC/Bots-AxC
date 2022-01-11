@@ -12,9 +12,6 @@ import time
 client = discord.Client()
 my_secret = os.environ['TOKEN']
 open_weather_api_key = os.environ['weather_api_key']
-# cmds = '**REGULAR COMMANDS:**\n$intro\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n$convert [original temperature unit] [desired temperature unit] [numeral temperature value] e.g. `$convert F C 212` **Note:** Distance conversation in beta. Only conversion from `m` to `km` currently available. The format is the same as the temperature conversion syntax, e.g. `$convert m km 50`\n$spam [message], e.g. `$spam Cool Science`\n'
-
-# music_cmds = "`?play [with song/music composition name]` (the bot will automatically join your voice channel in the server, and the song/musical composition will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [with the URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio name] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio name]` (to loop music 10 times)\n`?disconnect` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
 
 #on ready function
 @client.event
