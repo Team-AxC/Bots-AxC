@@ -7,202 +7,235 @@ from random import randrange
 from pprint import *
 from weather import *
 from keep_alive import *
-import time
 
 client = discord.Client()
 my_secret = os.environ['TOKEN']
 open_weather_api_key = os.environ['weather_api_key']
 
+
 #on ready function
 @client.event
 async def on_ready():
-  #The bot is watching commands and nerdy stuff
-  await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="$assist"))
-  print('ICBM launched by {0.user}, expect destruction soon (of your brain). Dimag Tikka Order being made...'.format(client))
+    #The bot is watching commands and nerdy stuff
+    # await client.change_presence(activity=discord.Activity(
+    #     type=discord.ActivityType.listening, name="$assist"))
+
+    await client.change_presence(activity = discord.Game(name = f"in {len(client.guilds)} servers | $assist"))
+    # await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(client.guilds)} servers | $assist"))
+    # await client.change_presence(activity=discord.Streaming(name=f"features on {len(client.guilds)} servers | $assist", url = "https://github.com/chinmoysir/DISCORD-BOT"))
+
+
+    print(
+        'ICBM launched by {0.user}, expect destruction soon (of your brain). Dimag Tikka Order being made...'
+        .format(client))
+
 
 #executables
 @client.event
 async def on_message(message):
-  if message.author == client.user:
-    return
+    if message.author == client.user:
+        return
 
+    if message.content.startswith('$weather'):
+        location = message.content.replace("$weather ", '')
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={open_weather_api_key}&units=metric'
+        try:
+            data = parse_data(json.loads(requests.get(url).content)['main'])
+            await message.channel.send(embed=weather_message(data, location))
+        except KeyError:
+            await message.channel.send(embed=error_message(location))
 
-  if message.content.startswith('$weather'):
-    location = message.content.replace("$weather ", '')
-    url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={open_weather_api_key}&units=metric'
-    try:
-      data = parse_data(json.loads(requests.get(url).content)['main'])
-      await message.channel.send(embed=weather_message(data, location))
-    except KeyError:
-      await message.channel.send(embed=error_message(location))
+    if message.content.startswith('$convert F C '):
+        temp_value = message.content.replace("$convert F C ", "")
+        try:
+            value = float(temp_value)
+            conversion = (value - 32) * 5 / 9
+            title = discord.Embed(title="🌡️ Temperature Conversion")
+            convert_case = "Fahrenheit to Celsius"
 
-  if message.content.startswith('$convert F C '):
-    temp_value = message.content.replace("$convert F C ","")
-    try:
-      value = float(temp_value)
-      conversion = (value-32) * 5/9
-      title = discord.Embed(title = "🌡️ Temperature Conversion")
-      convert_case = "Fahrenheit to Celsius"
+            title.add_field(
+                name=convert_case,
+                value=f"The converted temperature is **{conversion}°C**",
+                inline=False)
+            title.set_footer(text="Formula used: C = (F-32) ⨉ 5/9")
 
-      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°C**", inline=False)
-      title.set_footer(text = "Formula used: C = (F-32) ⨉ 5/9")
+            await message.channel.send(embed=title)
 
+        except ValueError:
+            await message.channel.send(
+                "The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors."
+            )
 
-      await message.channel.send(embed = title)
+    if message.content.startswith('$convert F K '):
+        temp_value = message.content.replace("$convert F K ", "")
+        try:
+            value = float(temp_value)
+            conversion = ((value - 32) * 5 / 9) + 273.15
+            title = discord.Embed(title="🌡️ Temperature Conversion")
+            convert_case = "Fahrenheit to kelvin"
 
-    except ValueError:
-      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+            title.add_field(
+                name=convert_case,
+                value=f"The converted temperature is **{conversion} K**",
+                inline=False)
+            title.set_footer(text="Formula used: K = (F-32) ⨉ 5/9 + 273.15")
 
-  if message.content.startswith('$convert F K '):
-    temp_value = message.content.replace("$convert F K ","")
-    try:
-      value = float(temp_value)
-      conversion = ((value-32) * 5/9) + 273.15
-      title = discord.Embed(title = "🌡️ Temperature Conversion")
-      convert_case = "Fahrenheit to kelvin"
+            await message.channel.send(embed=title)
 
-      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion} K**", inline=False)
-      title.set_footer(text = "Formula used: K = (F-32) ⨉ 5/9 + 273.15")
+        except ValueError:
+            await message.channel.send(
+                "The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors."
+            )
 
+    if message.content.startswith('$convert C F '):
+        temp_value = message.content.replace("$convert C F ", "")
+        try:
+            value = float(temp_value)
+            conversion = (9 / 5 * value) + 32
+            title = discord.Embed(title="🌡️ Temperature Conversion")
+            convert_case = "Celsius to Fahrenheit"
 
-      await message.channel.send(embed = title)
+            title.add_field(
+                name=convert_case,
+                value=f"The converted temperature is **{conversion}°F**",
+                inline=False)
+            title.set_footer(text="Formula used: F = (9/5 ⨉ C) + 32")
 
-    except ValueError:
-      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+            await message.channel.send(embed=title)
 
-  if message.content.startswith('$convert C F '):
-    temp_value = message.content.replace("$convert C F ","")
-    try:
-      value = float(temp_value)
-      conversion = (9/5 * value) + 32
-      title = discord.Embed(title = "🌡️ Temperature Conversion")
-      convert_case = "Celsius to Fahrenheit"
+        except ValueError:
+            await message.channel.send(
+                "The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors."
+            )
 
-      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°F**", inline=False)
-      title.set_footer(text = "Formula used: F = (9/5 ⨉ C) + 32")
+    if message.content.startswith('$convert C K '):
+        temp_value = message.content.replace("$convert C K ", "")
+        try:
+            value = float(temp_value)
+            conversion = value + 273.15
+            title = discord.Embed(title="🌡️ Temperature Conversion")
+            convert_case = "Celsius to kelvin"
 
+            title.add_field(
+                name=convert_case,
+                value=f"The converted temperature is **{conversion} K**",
+                inline=False)
+            title.set_footer(text="Formula used: K = C + 273.15")
 
-      await message.channel.send(embed = title)
+            await message.channel.send(embed=title)
 
-    except ValueError:
-      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+        except ValueError:
+            await message.channel.send(
+                "The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors."
+            )
 
-  if message.content.startswith('$convert C K '):
-    temp_value = message.content.replace("$convert C K ","")
-    try:
-      value = float(temp_value)
-      conversion = value + 273.15
-      title = discord.Embed(title = "🌡️ Temperature Conversion")
-      convert_case = "Celsius to kelvin"
+    if message.content.startswith('$convert K C '):
+        temp_value = message.content.replace("$convert K C ", "")
+        try:
+            value = float(temp_value)
+            conversion = value - 273.15
+            title = discord.Embed(title="🌡️ Temperature Conversion")
+            convert_case = "kelvin to Celsius"
 
-      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion} K**", inline=False)
-      title.set_footer(text = "Formula used: K = C + 273.15")
+            title.add_field(
+                name=convert_case,
+                value=f"The converted temperature is **{conversion}°C**",
+                inline=False)
+            title.set_footer(text="Formula used: C = K - 273.15")
 
+            await message.channel.send(embed=title)
 
-      await message.channel.send(embed = title)
+        except ValueError:
+            await message.channel.send(
+                "The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors."
+            )
 
-    except ValueError:
-      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+    if message.content.startswith('$convert K F '):
+        temp_value = message.content.replace("$convert K F ", "")
+        try:
+            value = float(temp_value)
+            conversion = (9 / 5 * (value - 273.15)) + 32
+            title = discord.Embed(title="🌡️ Temperature Conversion")
+            convert_case = "Celsius to Fahrenheit"
 
-  if message.content.startswith('$convert K C '):
-    temp_value = message.content.replace("$convert K C ","")
-    try:
-      value = float(temp_value)
-      conversion = value - 273.15
-      title = discord.Embed(title = "🌡️ Temperature Conversion")
-      convert_case = "kelvin to Celsius"
+            title.add_field(
+                name=convert_case,
+                value=f"The converted temperature is **{conversion}°F**",
+                inline=False)
+            title.set_footer(
+                text="Formula used: F = {9/5 ⨉ (K - 273.15)} + 32")
 
-      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°C**", inline=False)
-      title.set_footer(text = "Formula used: C = K - 273.15")
+            await message.channel.send(embed=title)
 
+        except ValueError:
+            await message.channel.send(
+                "The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors."
+            )
 
-      await message.channel.send(embed = title)
+    if message.content.startswith("$convert m km "):
+        temp_value = message.content.replace("$convert m km ", "")
+        try:
+            value = float(temp_value)
+            conversion = value / 1000
+            title = discord.Embed(
+                title=":straight_ruler: ️ Distance Conversion")
+            convert_case = "meters to kilometers"
 
-    except ValueError:
-      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+            title.add_field(
+                name=convert_case,
+                value=f"The converted distance is **{conversion} km**",
+                inline=False)
+            title.set_footer(text="Formula used: km = m / 1000")
 
-  if message.content.startswith('$convert K F '):
-    temp_value = message.content.replace("$convert K F ","")
-    try:
-      value = float(temp_value)
-      conversion = (9/5 * (value - 273.15)) + 32
-      title = discord.Embed(title = "🌡️ Temperature Conversion")
-      convert_case = "Celsius to Fahrenheit"
+            await message.channel.send(embed=title)
 
-      title.add_field(name = convert_case, value = f"The converted temperature is **{conversion}°F**", inline=False)
-      title.set_footer(text = "Formula used: F = {9/5 ⨉ (K - 273.15)} + 32")
+        except ValueError:
+            await message.channel.send(
+                "The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper distance values without any symbols of sorts to avoid errors."
+            )
 
+    if message.content.startswith("$spam "):
+        spammer = message.content.replace("$spam ", "")
 
-      await message.channel.send(embed = title)
+        for num in range(11):
+            await message.channel.send(spammer)
 
-    except ValueError:
-      await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper temperature values without any symbols of sorts to avoid errors.")
+    if message.content.startswith("$random_spam"):
+        spam1 = "CRISPR-Cas9 Bring me a gene (A Capella Science)"
+        spam2 = "Science is Everything"
+        spam3 = "Computer Forever"
+        spam4 = "e"
+        spam5 = "Rick Roll"
 
-  if message.content.startswith("$convert m km "):
-      temp_value = message.content.replace("$convert m km ", "")
-      try:
-        value = float(temp_value)
-        conversion = value / 1000
-        title = discord.Embed(title=":straight_ruler: ️ Distance Conversion")
-        convert_case = "meters to kilometers"
-        
-        title.add_field(name=convert_case, value=f"The converted distance is **{conversion} km**", inline=False)
-        title.set_footer(text="Formula used: km = m / 1000")
-        
-        await message.channel.send(embed=title)
-        
-      except ValueError:
-        await message.channel.send("The input was in an incorrect format. It looks like that you might have not used numbers and/or have additional text in your message. Please try to keep the message to the command itself with proper distance values without any symbols of sorts to avoid errors.")
+        x = randrange(6)
 
-  if message.content.startswith("$spam "):
-    spammer = message.content.replace("$spam ","")
+        if x == 1:
+            i = 0
+            while i < 2:
+                await message.channel.send(spam1)
 
-    for num in range(11):
-      await message.channel.send(spammer)
+        elif x == 2:
+            i = 0
+            while i < 2:
+                await message.channel.send(spam2)
 
-  if message.content.startswith("$random_spam"):
-    spam1 = "CRISPR-Cas9 Bring me a gene (A Capella Science)"
-    spam2 = "Science is Everything"
-    spam3 = "Computer Forever"
-    spam4 = "e"
-    spam5 = "Rick Roll"
+        elif x == 3:
+            i = 0
+            while i < 2:
+                await message.channel.send(spam3)
 
-    x = randrange(6)
+        elif x == 4:
+            i = 0
+            while i < 2:
+                await message.channel.send(spam4)
 
-    if x == 1:
-      i = 0
-      while i < 2:
-        await message.channel.send(spam1)
-        
+        elif x == 5:
+            i = 0
+            while i < 2:
+                await message.channel.send(spam5)
 
-    elif x == 2:
-      i = 0
-      while i < 2:
-        await message.channel.send(spam2)
-        
-
-    elif x == 3:
-      i = 0
-      while i < 2:
-        await message.channel.send(spam3)
-        
-
-    elif x == 4:
-      i = 0
-      while i < 2:
-        await message.channel.send(spam4)
-        
-
-    elif x == 5:
-      i = 0
-      while i < 2:
-        await message.channel.send(spam5)
-        
-
-    else:
-      pass
-
-  
+        else:
+            pass
 
 
 keep_alive()
