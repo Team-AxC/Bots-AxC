@@ -78,7 +78,7 @@ class music_cog(commands.Cog):
         else:
             self.is_playing = False
 
-    @commands.command(name="play", help="Plays a selected song from YouYube")
+    @commands.command(name="play", help="Plays a selected song from YouTube")
     async def play(self, ctx, *args):
         query = " ".join(args)
 
@@ -93,12 +93,13 @@ class music_cog(commands.Cog):
             song = self.search_yt(query)
             if type(song) == type(True):
                 await ctx.send(
-                    "Could not download the song. Incorrect format, try another keyword. This could be due to a playlist or livestream format."
+                    "Could not play the song. Incorrect format, try another keyword. This could be due to a playlist or livestream format."
                 )
             else:
+                self.music_queue.append([song, voice_channel])
+
                 await ctx.send(
                     f"Song added to the queue, just for you {ctx.author}")
-                self.music_queue.append([song, voice_channel])
 
                 if self.is_playing == False:
                     await self.play_music()
@@ -221,7 +222,7 @@ class music_cog(commands.Cog):
 
             if type(song) == type(True):
               await ctx.send(
-                        "Could not download the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
+                        "Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
                     )
 
             else:
@@ -251,7 +252,7 @@ class music_cog(commands.Cog):
         song = self.search_yt(query)
 
         if type(song) == type(True):
-          await ctx.send("Could not download the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format.")
+          await ctx.send("Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format.")
 
         else:
           for num in range(11):
@@ -289,18 +290,9 @@ class music_cog(commands.Cog):
       
         
         except Exception:
-          lyrics = "Lyrics not found. Try reframing the song title and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
+          error = "Lyrics not found. Try reframing the song title and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
 
-          self.my_embed = discord.Embed(title = ":octagonal_sign:  Error", description = lyrics)
+          self.my_embed = discord.Embed(title = ":octagonal_sign:  Error", description = error)
 
         await ctx.send(embed = self.my_embed)
-
-      
-
-      # @commands.command()
-      # async def cmd(self, ctx):
-      #   self.my_embed = discord.Embed(title="All commands:",
-      #                                 description=music_cmds,
-      #                                 color=0x00ff00)
-      #   self.my_embed.set_author(name="author - abhishek#4309")
-      #   await ctx.send(embed=self.my_embed)
+        
