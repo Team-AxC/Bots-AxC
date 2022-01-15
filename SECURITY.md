@@ -10,7 +10,7 @@
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, please open a pull-request with the `security-issues` tag. Team AxC will try to take action as soon as possible.
+To report a vulnerability, please open a pull-request with the `security-issues` tag or report the same in `Issues`. Team AxC will try to take action as soon as possible.
 
 **THANKS!** 😃\
 Team AxC
