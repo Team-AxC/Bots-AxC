@@ -4,6 +4,7 @@
 
 | Version            | Supported          |
 | -------            | ------------------ |
+| (Replit Code)      | :white_check_mark: |
 | 0.3a               | :white_check_mark: |
 | Earlier versions   | :x:                |
 
