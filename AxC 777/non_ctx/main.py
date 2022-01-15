@@ -24,6 +24,8 @@ async def on_ready():
     # await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(client.guilds)} servers | $assist"))
     # await client.change_presence(activity=discord.Streaming(name=f"features on {len(client.guilds)} servers | $assist", url = "https://github.com/chinmoysir/DISCORD-BOT"))
 
+    for please in range(len(client.guilds)):
+      print(client.guilds[please])
 
     print(
         'ICBM launched by {0.user}, expect destruction soon (of your brain). Dimag Tikka Order being made...'
