@@ -1,4 +1,4 @@
-**This license applies to both this GitHub Repository and the running code on Replit \ (The Replit code would be integrated with GitHub soon, there is usually a little back and forth between the code of both)**
+**This license applies to both this GitHub Repository and the running code on Replit (The Replit code would be integrated with GitHub soon, there is usually a little back and forth between the code of both)**
 
 Copyright (c) 2022 chinmoysir and 97I8TOE47K
 
