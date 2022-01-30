@@ -154,62 +154,8 @@ async def attachment_link(ctx):
 
   for file_no in range(len(attachments)):
     await ctx.send(f"`{attachments[file_no].url}`")
-
-# STOCK COMMANDS -------
-# Working on an SQL Database for this. BIG STUFF COMING! #teaser
-# def_bal = 10000
-# # per_stock_value = []
-# all_companies = []
-
-# company_name1 = "Company"
-
-# all_companies.append(company_name1)
-
-# per_stock_value = 1000
-
-# # memberList = []
-
-# # @client.command()
-# # async def stock_make_account(ctx,*, name):
-# #   memberList.append(name)
-# #   await ctx.send(f"You have successfully become a stock member by the name {name}")
-
-# # @client.command()
-# # async def stock_members(ctx):
-# #   await ctx.send(memberList)
-# #   print(memberList)
-
-# @client.command()
-# async def buy_stock(ctx, *args, target: Optional[Member]):
-#   target = target or ctx.author
-
-#   company = " ".join(args)
-  
-#   # if target not in memberList:
-#   #  await ctx.send("Make a stock account first!\nYou can use the `?stock_make_account [name]` command to make one") 
-
-#   if company == all_companies:
-#     if def_bal >= per_stock_value:
-#       await ctx.send("Stock Bought!") 
     
-#     else:
-#        await ctx.send("You don't have enough money to bargain")
-
-# bal_cut = def_bal - per_stock_value
-
-# @client.command()
-# async def stock_bal(ctx, target: Optional[Member]):
-#   target = target or ctx.author
-
-#   my_embed = discord.Embed(title = "User Information", description = "", colour = target.colour, timestamp=datetime.utcnow())
     
-#   balance = bal_cut
-
-#   my_embed.add_field(name = ctx.author, value = f"Balance = :money_with_wings: {balance} *AxCur*\n")
-#   my_embed.set_thumbnail(url = target.avatar_url)
-
-#   await ctx.send(embed = my_embed)
-
 keep_alive()
 my_secret = os.environ['BOT']
 client.run(my_secret)
