@@ -5,8 +5,13 @@ import youtube_dl
 from lyrics_extractor import SongLyrics
 import json
 import os
+from pytube import YouTube as pyt
+from random import *
+from music_tinkering import *
+import string
+import random
 
-music_cmds = "`?play [audio title]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio title] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio title]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)\n\n**GitHub Repo :ninja:**\nhttps://github.com/chinmoysir/DISCORD-BOT"
+music_cmds = "`?play [audio title]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n`?url [URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio title] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio title]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)\n"
 
 
 class music_cog(commands.Cog):
@@ -18,9 +23,7 @@ class music_cog(commands.Cog):
 
         # 2d array containing [song, channel]
         self.music_queue = []
-        self.YDL_OPTIONS = {
-          'format': 'bestaudio',
-          'noplaylist': 'True'}
+        self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
         self.FFMPEG_OPTIONS = {
             'before_options':
             '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
@@ -106,26 +109,28 @@ class music_cog(commands.Cog):
 
     @commands.command(name="queue", help="Displays the current songs in queue")
     async def queue(self, ctx):
-      if len(self.music_queue) <= 50:
-        retval = ""
-        for i in range(0, len(self.music_queue)):
-            retval += self.music_queue[i][0]['title'] + "\n"
+        if len(self.music_queue) <= 50:
+            retval = ""
+            for i in range(0, len(self.music_queue)):
+                retval += self.music_queue[i][0]['title'] + "\n"
 
-        print(retval)
+            print(retval)
 
-        if retval != "":
-            await ctx.send(retval)
+            if retval != "":
+                await ctx.send(retval)
+            else:
+                await ctx.send("No music in queue")
+
         else:
-            await ctx.send("No music in queue")
+            retval = ""
+            for i in range(0, 51):
+                retval += self.music_queue[i][0]['title'] + "\n"
 
-      else:
-        retval = ""
-        for i in range(0, 51):
-            retval += self.music_queue[i][0]['title'] + "\n"
+            print(retval)
 
-        print(retval)
-
-        ctx.send("First 50 songs shown. The queue is too long to be sent at once.")
+            ctx.send(
+                "First 50 songs shown. The queue is too long to be sent at once."
+            )
 
     @commands.command(name="skip", help="Skips the current song being played")
     async def skip(self, ctx):
@@ -189,78 +194,77 @@ class music_cog(commands.Cog):
             vc.play(source)
 
     @commands.command()
-    async def assist(self, ctx):
+    async def help(self, ctx):
         self.my_embed = discord.Embed(title="All commands:",
                                       description=music_cmds,
                                       color=0x00ff00)
-        self.my_embed.set_author(name="author - Abhishek Saxena (https://github.com/chinmoysir)")
+        self.my_embed.set_author(
+            name="author - Abhishek Saxena (https://github.com/chinmoysir)")
         await ctx.send(embed=self.my_embed)
 
     @commands.command()
     async def loop(self, ctx, *args):
         voice_channel = ctx.author.voice.channel
-        
+
         if voice_channel is None:
-          #you need to be connected so that the bot knows where to go
-          await ctx.send("Connect to a voice channel!")
+            #you need to be connected so that the bot knows where to go
+            await ctx.send("Connect to a voice channel!")
 
         else:
-          content = ctx.message.content.split()
-          # print(content)
+            content = list(args)
+            # print(content)
 
-          try:
-            looping_constant = int(content[-1])
-            
-            content.pop()
-            content.pop(0)
+            try:
+                looping_constant = int(content[-1])
 
-            query = " ".join(content)
-            # print(query)
-            
+                content.pop()
 
-            song = self.search_yt(query)
+                query = " ".join(content)
+                # print(query)
 
-            if type(song) == type(True):
-              await ctx.send(
+                song = self.search_yt(query)
+
+                if type(song) == type(True):
+                    await ctx.send(
                         "Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
                     )
 
-            else:
-              await ctx.send("Song added to the queue")
+                else:
+                    await ctx.send("Song added to the queue")
 
-              for num in range(looping_constant + 1):
-                self.music_queue.append([song, voice_channel])
+                    for num in range(looping_constant + 1):
+                        self.music_queue.append([song, voice_channel])
 
-                       
-              if self.is_playing == False:
-                await self.play_music()
+                    if self.is_playing == False:
+                        await self.play_music()
 
-
-          except ValueError:
-            await ctx.send("Improper looping constant found. Please keep the looping constant (i.e. the no of times the audio. should be looped) a whole number.)")
-            
+            except ValueError:
+                await ctx.send(
+                    "Improper looping constant found. Please keep the looping constant (i.e. the no of times the audio. should be looped) a whole number."
+                )
 
     @commands.command()
     async def loop_10(self, ctx, *args):
-      query = " ".join(args)
-      voice_channel = ctx.author.voice.channel
-        
-      if voice_channel is None:
-          #you need to be connected so that the bot knows where to go
-          await ctx.send("Connect to a voice channel!")
-      else:
-        song = self.search_yt(query)
+        query = " ".join(args)
+        voice_channel = ctx.author.voice.channel
 
-        if type(song) == type(True):
-          await ctx.send("Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format.")
-
+        if voice_channel is None:
+            #you need to be connected so that the bot knows where to go
+            await ctx.send("Connect to a voice channel!")
         else:
-          for num in range(11):
-            self.music_queue.append([song, voice_channel])
+            song = self.search_yt(query)
 
-          if self.is_playing == False:
-            await self.play_music()
+            if type(song) == type(True):
+                await ctx.send(
+                    "Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
+                )
 
+            else:
+                for num in range(11):
+                    self.music_queue.append([song, voice_channel])
+
+                if self.is_playing == False:
+                    await self.play_music()
 
     @commands.command()
     async def clear(self, ctx):
@@ -271,7 +275,9 @@ class music_cog(commands.Cog):
             self.music_queue.pop()
 
         await ctx.send("Queue Cleared!")
-        await ctx.send("https://tenor.com/view/were-all-clear-yellowstone-were-good-to-go-ready-lets-do-this-gif-17723207")
+        await ctx.send(
+            "https://tenor.com/view/were-all-clear-yellowstone-were-good-to-go-ready-lets-do-this-gif-17723207"
+        )
 
     @commands.command()
     async def lyrics(self, ctx, *args):
@@ -282,28 +288,48 @@ class music_cog(commands.Cog):
 
         extract_lyrics = SongLyrics(json_api_key, gcs_genius_engineid)
 
-
         try:
-          lyrics = extract_lyrics.get_lyrics(query)
+            lyrics = extract_lyrics.get_lyrics(query)
 
-          self.my_embed = discord.Embed(title = lyrics['title'], description = lyrics['lyrics'])
-      
-        
+            self.my_embed = discord.Embed(title=lyrics['title'],
+                                          description=lyrics['lyrics'])
+
         except Exception:
-          error = "Lyrics not found. Try reframing the song title and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
+            error = "Lyrics not found. Try reframing the song title and/or check if the song even exists or you or I have ascended into a parallel universe.\n\n**Thanks!**\nTeam AxC"
 
-          self.my_embed = discord.Embed(title = ":octagonal_sign:  Error", description = error)
+            self.my_embed = discord.Embed(title=":octagonal_sign:  Error",
+                                          description=error)
 
-        await ctx.send(embed = self.my_embed)
+        await ctx.send(embed=self.my_embed)
 
-    
+    # Scientific commands and functions start
 
-      
+    @commands.command()
+    async def fft(self, ctx):
+      if str(ctx.message.attachments) == "[]": 
+        await ctx.send("No attachment")
 
-      # @commands.command()
-      # async def cmd(self, ctx):
-      #   self.my_embed = discord.Embed(title="All commands:",
-      #                                 description=music_cmds,
-      #                                 color=0x00ff00)
-      #   self.my_embed.set_author(name="author - abhishek#4309")
-      #   await ctx.send(embed=self.my_embed)
+      else: 
+        split_v1 = str(ctx.message.attachments).split("filename='")[1]
+        filename = str(split_v1).split("' ")[0]
+
+        allowed_extensions = ('wav', 'mp3')
+        file_components = filename.split('.')
+
+        if file_components[-1] in allowed_extensions:
+          await ctx.message.attachments[0].save(fp = f'{filename}'.format(filename))
+
+          print(filename)
+
+          image_title = fft(filename)
+          print(image_title)
+  
+          fft_image = discord.File(image_title, filename = "fft.png")
+  
+          await ctx.send(file = fft_image)
+  
+          os.remove(image_title)
+          os.remove(f"{file_components[0]}.wav")
+
+        else:
+            await ctx.send("File type not supported")
