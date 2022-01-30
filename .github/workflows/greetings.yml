@@ -1,0 +1,16 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: '`welcome.AxC_team = true`'
+        pr-message: 'Welcome to Team AxC, have a cup of tea and relax. Coffee strictly prohibited. Oh sorry, Kaffee is prohibited (not the German one, its a cheap copy of coffee). Or get shot in the head.\n**Team AxC**'
