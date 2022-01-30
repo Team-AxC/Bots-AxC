@@ -1,1 +1,12 @@
-
+discord.py
+discord
+matplotlib
+numpy
+scipy
+PyNaCl
+lyrics-extractor
+pydub
+wheel
+youtube_dl
+Flask
+weather-api
