@@ -20,9 +20,11 @@ async def on_ready():
     # await client.change_presence(activity=discord.Activity(
     #     type=discord.ActivityType.listening, name="$assist"))
 
-    await client.change_presence(activity = discord.Game(name = f"in {len(client.guilds)} servers | $assist"))
-    # await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{len(client.guilds)} servers | $assist"))
-    # await client.change_presence(activity=discord.Streaming(name=f"features on {len(client.guilds)} servers | $assist", url = "https://github.com/chinmoysir/DISCORD-BOT"))
+    await client.change_presence(activity = discord.Game(name = f"in {len(client.guilds)} servers | $help"))
+
+    # await client.change_presence(activity = discord.Game(name = f"🛑Temporary outage"))
+    
+    
 
     for please in range(len(client.guilds)):
       print(client.guilds[please])
@@ -37,15 +39,6 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-
-    if message.content.startswith('$weather'):
-        location = message.content.replace("$weather ", '')
-        url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={open_weather_api_key}&units=metric'
-        try:
-            data = parse_data(json.loads(requests.get(url).content)['main'])
-            await message.channel.send(embed=weather_message(data, location))
-        except KeyError:
-            await message.channel.send(embed=error_message(location))
 
     if message.content.startswith('$convert F C '):
         temp_value = message.content.replace("$convert F C ", "")
@@ -212,28 +205,23 @@ async def on_message(message):
         x = randrange(6)
 
         if x == 1:
-            i = 0
-            while i < 2:
+            for i in range(10):
                 await message.channel.send(spam1)
 
         elif x == 2:
-            i = 0
-            while i < 2:
+            for i in range(10):
                 await message.channel.send(spam2)
 
         elif x == 3:
-            i = 0
-            while i < 2:
+            for i in range(10):
                 await message.channel.send(spam3)
 
         elif x == 4:
-            i = 0
-            while i < 2:
+            for i in range(10):
                 await message.channel.send(spam4)
 
         elif x == 5:
-            i = 0
-            while i < 2:
+            for i in range(10):
                 await message.channel.send(spam5)
 
         else:
