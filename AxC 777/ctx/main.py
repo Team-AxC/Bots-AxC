@@ -5,16 +5,19 @@ import os
 import requests
 import json
 from keep_alive import *
-from discord import User
-from discord.ext.commands import Bot, guild_only
+from discord.ext.commands import *
+from pprint import *
+from weather import *
 
 #defining the command variable
 client = commands.Bot(command_prefix = '$')
+client.remove_command("help") # now assist is help WOW
 open_weather_api_key = os.environ['weather_api_key']
-cmds = '**REGULAR COMMANDS:**\n$intro\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n$convert [original temperature unit] [desired temperature unit] [numeral temperature value] e.g. `$convert F C 212` \n**Note:** Distance conversation in beta. Only conversion from `m` to `km` currently available. The format is the same as the temperature conversion syntax, e.g. `$convert m km 50`\n$spam [message], e.g. `$spam Cool Science`\n\n**MODERATION COMMANDS:**\n$kick\n$ban\n$warn'
+cmds = '**MODERATION COMMANDS:**\n'
 
-music_cmds = "`?play [audio title]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n `?url [URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio title] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio title]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)"
+regular_cmds = "$intro\n$help\n$inspire\n$devinfo\n$joke\n$cat_fact\n$weather (Syntax: `$weather [City]`, e.g. `$weather Lucknow`)\n$convert [original temperature unit] [desired temperature unit] [numeral temperature value] e.g. `$convert F C 212` \n**Note:** Distance conversation in beta. Only conversion from `m` to `km` currently available. The format is the same as the temperature conversion syntax, e.g. `$convert m km 50`\n$spam [message], e.g. `$spam Cool Science`\n$random_spam"
 
+mod_cmds = "$kick [member name] [reason]\n$ban [member name] [reason]\n$unban [member name]\n$clear [number of messages to clear]\n$warn [member name] [reason]\n\n NOTE: the member you are warning,banning or kicking from the server should be on a lower role than the BOT"
 
 #functions
 def get_quote():
@@ -45,8 +48,6 @@ async def intro(ctx):
 @client.command()
 async def namaste(ctx, member : discord.Member):
   await ctx.send(f"AxC777 says namaste to {member} on behalf of {ctx.author}")
-
-  #it works !! chinmoy see chat, thanks btw 😀
 
 @client.command()
 async def dev_info(ctx):
@@ -80,8 +81,20 @@ async def clear(ctx, amount = 2):
 @client.command()
 @commands.has_permissions(kick_members = True)
 async def kick(ctx, member : discord.Member,*, reason = "*No specific reason provided to by the moderator*"):
-  await member.send("You have been kicked from a server , Because:"+reason)
-  await member.kick(reason = reason)
+  try:
+    try:
+      await member.send("You have been kicked from a server , Because:"+reason)
+
+    except:
+      pass
+    
+    await member.kick(reason = reason)
+
+  except:
+    my_embed = discord.Embed(title = "", description = "", color = 0x552E12)
+
+    my_embed.add_field(name = "ERROR :red_circle:", value = "either the bot is on a lower role than the member or the both the member and the bot are at the same role")
+    await ctx.send(embed = my_embed)
 
 @client.command()
 @commands.has_permissions(ban_members = True)
@@ -115,14 +128,88 @@ async def warn(ctx, member : discord.Member,*, reason = "*No specific reason pro
   await ctx.send(embed = my_embed)
 
 @client.command()
-async def assist(ctx):
-    my_embed = discord.Embed(title = "All commands:", description = cmds, color = 0x00ff00)
-    my_embed.add_field(name = "\n\nMusic Commands for AxC 777 Music\n(make sure that the music bot is in the server)", value=music_cmds, inline=False)
-    my_embed.set_author(name="Abhishek Saxena (https://github.com/chinmoysir)")
-    await ctx.send(embed = my_embed)
+async def help(ctx):
+  my_embed = discord.Embed(title = "", description = "", color = 0x00ff00)
 
+  my_embed.add_field(name = "REGULAR COMMANDS", value = regular_cmds)
+  my_embed.add_field(name = "MODERATION COMMANDS" , value = mod_cmds)
 
+  my_embed.set_author(name="Abhishek Saxena (https://github.com/chinmoysir)")
+  await ctx.send(embed = my_embed)
+
+@client.command()
+async def weather(ctx, *args):
+  location = " ".join(args)
+  url = f'http://api.openweathermap.org/data/2.5/weather?q={location}&appid={open_weather_api_key}&units=metric'
+  try:
+      data = parse_data(json.loads(requests.get(url).content)['main'])
+      await ctx.send(embed=weather_message(data, location))
+        
+  except KeyError:
+      await ctx.send(embed=error_message(location))
+
+@client.command()
+async def attachment_link(ctx):
+  attachments = ctx.message.attachments
+
+  for file_no in range(len(attachments)):
+    await ctx.send(f"`{attachments[file_no].url}`")
+
+# STOCK COMMANDS -------
+# Working on an SQL Database for this. BIG STUFF COMING! #teaser
+# def_bal = 10000
+# # per_stock_value = []
+# all_companies = []
+
+# company_name1 = "Company"
+
+# all_companies.append(company_name1)
+
+# per_stock_value = 1000
+
+# # memberList = []
+
+# # @client.command()
+# # async def stock_make_account(ctx,*, name):
+# #   memberList.append(name)
+# #   await ctx.send(f"You have successfully become a stock member by the name {name}")
+
+# # @client.command()
+# # async def stock_members(ctx):
+# #   await ctx.send(memberList)
+# #   print(memberList)
+
+# @client.command()
+# async def buy_stock(ctx, *args, target: Optional[Member]):
+#   target = target or ctx.author
+
+#   company = " ".join(args)
+  
+#   # if target not in memberList:
+#   #  await ctx.send("Make a stock account first!\nYou can use the `?stock_make_account [name]` command to make one") 
+
+#   if company == all_companies:
+#     if def_bal >= per_stock_value:
+#       await ctx.send("Stock Bought!") 
     
+#     else:
+#        await ctx.send("You don't have enough money to bargain")
+
+# bal_cut = def_bal - per_stock_value
+
+# @client.command()
+# async def stock_bal(ctx, target: Optional[Member]):
+#   target = target or ctx.author
+
+#   my_embed = discord.Embed(title = "User Information", description = "", colour = target.colour, timestamp=datetime.utcnow())
+    
+#   balance = bal_cut
+
+#   my_embed.add_field(name = ctx.author, value = f"Balance = :money_with_wings: {balance} *AxCur*\n")
+#   my_embed.set_thumbnail(url = target.avatar_url)
+
+#   await ctx.send(embed = my_embed)
+
 keep_alive()
 my_secret = os.environ['BOT']
 client.run(my_secret)
