@@ -1,5 +1,5 @@
 [![CodeQL](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-success.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-success.svg)](https://github.com/chinmoysir/DISCORD-BOT/graphs/commit-activity)
 [![made-with-python](https://img.shields.io/badge/Made%20in-Python-1f425f.svg)](https://www.python.org/)
 ![works-with](https://img.shields.io/badge/Works_with-Python_3.x-21415b)
 [![Repl.it](https://img.shields.io/badge/Hosted_on-Replit-0d101e.svg?logo=replit&logoColor=white)](https://replit.com/@Abhisheksaxena4)
