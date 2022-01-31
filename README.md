@@ -1,6 +1,6 @@
 [![CodeQL](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+[![made-with-python](https://img.shields.io/badge/Made%20in-Python-1f425f.svg)](https://www.python.org/)
 ![works-with](https://img.shields.io/badge/Works_with_Python-3.x-21415b)
 [![Repl.it](https://img.shields.io/badge/Repl.it-%230D101E.svg?style=for-the-badge&logo=replit&logoColor=white)](https://replit.com/@Abhisheksaxena4)
 # The AxC Bot Family
