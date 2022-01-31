@@ -2,7 +2,13 @@
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 [![Repl.it](https://img.shields.io/badge/Repl.it-%230D101E.svg?style=for-the-badge&logo=replit&logoColor=white)](https://replit.com/@Abhisheksaxena4)
 # The AxC Bot Family
-With some code aid from https://github.com/sohan-py/DiscordWeatherBot (https://github.com/sohan-py)
+## ADD OUR BOTS!
+**AxC 777** (general-purpose, features not locked): https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644972474359&scope=bot 
+
+**AxC 777 Music** (The Music Bot): https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=1644972474359&scope=bot 
+
+---
+Made with some code aid from https://github.com/sohan-py/DiscordWeatherBot (https://github.com/sohan-py)
 
 **Note:** Both the ctx and non-ctx versions of AxC 777 run simultaneously, for some features are in one or the other.
 
