@@ -20,7 +20,7 @@ def wav_fft(filename: str) -> str:
   
   return random_name
 
-def convert(input_fp: str, target_extension: str):
+def convert(input_fp: str, target_extension: str) -> None:
   inp_array = input_fp.split(".")
   output_file = f"{inp_array[0]}.{target_extension}"
 
