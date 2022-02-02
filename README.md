@@ -1,8 +1,8 @@
 [![CodeQL](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-success.svg)](https://github.com/chinmoysir/DISCORD-BOT/graphs/commit-activity)
-[![made-with-python](https://img.shields.io/badge/Made%20in-Python-1f425f.svg)](https://www.python.org/)
-![works-with](https://img.shields.io/badge/Works_with-Python_3.x-21415b)
-[![Repl.it](https://img.shields.io/badge/Hosted_on-Replit-0d101e.svg?logo=replit&logoColor=white)](https://replit.com/@Abhisheksaxena4)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-success.svg?labelColor=2d3339)](https://github.com/chinmoysir/DISCORD-BOT/graphs/commit-activity)
+[![made-with-python](https://img.shields.io/badge/Made%20in-Python-1f425f.svg?labelColor=2d3339)](https://www.python.org/)
+![works-with](https://img.shields.io/badge/Works_with-Python_3.x-21415b?labelColor=2d3339)
+[![Repl.it](https://img.shields.io/badge/Hosted_on-Replit-0d101e.svg?logo=replit&logoColor=white&labelColor=2d3339)](https://replit.com/@Abhisheksaxena4)
 # The AxC Bot Family
 ## Add our Bots (Currently in Public Beta, but mostly stable)!
 **AxC 777** (general-purpose, features not locked): https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644972474359&scope=bot 
