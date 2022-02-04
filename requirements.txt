@@ -1,4 +1,4 @@
-pycord
+py-cord >= 2.0.0b1
 matplotlib
 numpy
 scipy
