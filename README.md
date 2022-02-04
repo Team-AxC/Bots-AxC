@@ -17,18 +17,17 @@ Made with code aid from https://github.com/sohan-py/DiscordWeatherBot (https://g
 Many times the code on Replit and on GitHub is different. Although the difference is usually subtle, the reason is that our bots run on Replit and the code of the bots is updated more frequently there. These changes are usually incorporated (if accepted by our team) into this GitHub Repository within a matter of a day or two. Yes, we know that Replit supports GitHub (or Git, but still) integration, and we are surely looking forward to use that, but for the time being, we are sticking to this route (for the time being here refers to about a week or two).
 
 ## Requirements (all bots inclusive)
-1. `discord.py`
-2. `discord`
-3. `matplotlib`
-4. `numpy`
-5. `scipy`
-6. `PyNaCl`
-7. `lyrics-extractor`
-8. `pydub`
-9. `wheel`
-10. `youtube_dl`
-11. `Flask`
-12. `weather-api`
+1. `pycord`
+1. `matplotlib`
+1. `numpy`
+1. `scipy`
+1. `PyNaCl`
+1. `lyrics-extractor`
+1. `pydub`
+1. `wheel`
+1. `youtube_dl`
+1. `Flask`
+1. `weather-api`
 
 All these required libraries can be installed using `pip` or `poetry`.
 
