@@ -1,15 +1,32 @@
 import discord
 from discord.ext import commands
+import spotipy
+from spotipy.oauth2 import *
 from youtube_dl import YoutubeDL
 import youtube_dl
 from lyrics_extractor import SongLyrics
 import json
 import os
-from pytube import YouTube as pyt
 from random import *
 from sound_tinkerlab import *
 
+
 music_cmds = "`?play [audio title]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n`?url [URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio title] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio title]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)\n"
+
+scientific_cmds = "`?fft [wav, mp3 or ogg attachment]` (Fast Fourier Transforms and sends the plot)"
+
+sp_clientid = os.environ['SPOTIFY_CLIENTID']
+sp_clientsecret = os.environ['SPOTIFY_CLIENTSECRET']
+
+
+json_api_key = os.environ['GCS_JSON_API']
+gcs_genius_engineid = os.environ['GCS_GENIUS_ENGINE_ID']
+
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret))
+
+
+
+
 
 
 class music_cog(commands.Cog):
@@ -85,10 +102,9 @@ class music_cog(commands.Cog):
 
         voice_channel = ctx.author.voice.channel
         if voice_channel is None:
-            #you need to be connected so that the bot knows where to go
             await ctx.send("Connect to a voice channel!")
         else:
-            # if (ctx.author == "Abhishek Saxena (https://github.com/chinmoysir)"):
+            # if (ctx.author == "Abhishek Saxena ()"):
             #         await ctx.send("RICKLOCKED 🔐\nNo more rickrolls allowed")
 
             song = self.search_yt(query)
@@ -99,11 +115,19 @@ class music_cog(commands.Cog):
             else:
                 self.music_queue.append([song, voice_channel])
 
-                await ctx.send(
-                    f"Song added to the queue, just for you {ctx.author}")
+                # await ctx.send(
+                #     f"Song added to the queue, just for you {ctx.author.mention}")
+
+                self.personal_embed = discord.Embed(title = "Song added to Queue", color = 0x00ff00)
+
+                self.personal_embed.add_field(name = "Song playing for: " , value = ctx.author.mention)
+                self.personal_embed.set_author(name = "AxC777 Music" , icon_url = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80")
+                
+                await ctx.send(embed = self.personal_embed)
 
                 if self.is_playing == False:
                     await self.play_music()
+
 
     @commands.command(name="queue", help="Displays the current songs in queue")
     async def queue(self, ctx):
@@ -137,6 +161,11 @@ class music_cog(commands.Cog):
             #try to play next in the queue if it exists
             await self.play_music()
 
+            self.personal_embed = discord.Embed(title = "Skipped the Playing Audio", color = discord.Color.gold())
+            self.personal_embed.set_author(name = "AxC777 Music" , icon_url = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
+                
+            await ctx.send(embed = self.personal_embed)
+
     @commands.command()
     async def disconnect(self, ctx):
         await ctx.voice_client.disconnect()
@@ -165,7 +194,7 @@ class music_cog(commands.Cog):
     @commands.command()
     async def url(self, ctx, url):
         if ctx.author.voice is None:
-            await ctx.send("Youre not in a voice channel")
+            await ctx.send("You're not in a voice channel")
         voice_channel = ctx.author.voice.channel
 
         if ctx.voice_client is None:
@@ -193,11 +222,17 @@ class music_cog(commands.Cog):
 
     @commands.command()
     async def help(self, ctx):
-        self.my_embed = discord.Embed(title="All commands:",
-                                      description=music_cmds,
+        self.my_embed = discord.Embed(title="",
+                                      description= "",
                                       color=0x00ff00)
+
+        self.my_embed.add_field(name = "Regular Cmds:" , value = music_cmds, inline = False)
+
+        self.my_embed.add_field(name = "Spotify Integrated Cmds" , value = "`?top_tracks [artist name]`", inline = True)
+
+        self.my_embed.add_field(name = "Scientific Cmds" , value = scientific_cmds, inline = True)        
         self.my_embed.set_author(
-            name="author - Abhishek Saxena (https://github.com/chinmoysir)")
+            name = "AxC 777 Music" , icon_url = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
         await ctx.send(embed=self.my_embed)
 
     @commands.command()
@@ -303,6 +338,16 @@ class music_cog(commands.Cog):
     # Scientific commands and functions start
 
     @commands.command()
+    async def sample_fft(self, ctx):
+      my_embed = discord.Embed(title = "Sample Fast Fourier Transform", description = "\u200b")
+      # sample_fft()
+      file = discord.File("fft.png", filename = "fft.png")
+      my_embed.set_image(url="attachment://fft.png")
+      await ctx.send(file = file, embed = my_embed)
+
+
+
+    @commands.command()
     async def fft(self, ctx):
       if str(ctx.message.attachments) == "[]": 
         await ctx.send("No attachment")
@@ -311,7 +356,7 @@ class music_cog(commands.Cog):
         split_v1 = str(ctx.message.attachments).split("filename='")[1]
         filename = str(split_v1).split("' ")[0]
 
-        allowed_extensions = ('wav', 'mp3')
+        allowed_extensions = ('wav', 'mp3', 'ogg')
         file_components = filename.split('.')
 
         if file_components[-1] in allowed_extensions:
@@ -320,6 +365,7 @@ class music_cog(commands.Cog):
           print(filename)
 
           image_title = fft(filename)
+          
           print(image_title)
   
           fft_image = discord.File(image_title, filename = "fft.png")
@@ -331,3 +377,67 @@ class music_cog(commands.Cog):
 
         else:
             await ctx.send("File type not supported")
+
+    # @commands.command()
+    # async def find_artist(self, ctx, *args):
+    #   args_list = list(args)
+
+    #   sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret))
+
+    #   if args_list[0] == 'find':
+    #     artist_id = args_list[1]
+    #     spotify_artist = sp.artist(artist_id)
+
+    #     await ctx.send(f"**{spotify_artist}** is the Spotify artist_id with {artist_id} ID")
+
+    @commands.command(name = "top_tracks")
+    async def top_tracks(self, ctx, *args):
+        artist = " ".join(args)
+  
+        results = sp.search(q=artist, limit=10, type="track")
+
+        self.my_embed = discord.Embed(title = f"Top tracks of {artist.title()}", color = 0x00ff00)
+
+        for idx, track in enumerate(results['tracks']['items']):
+            min_sec = divmod(track['duration_ms'] / 1000, 60)
+            
+            self.my_embed.add_field(name = f"{idx + 1}. {track['name']}", value = f"**Duration:** {int(min_sec[0])} min {round(min_sec[1],2)} s", inline = False)
+            
+        # print(results)
+
+        await ctx.send(embed = self.my_embed)
+
+    @commands.command()
+    async def albums(self, ctx, *args):
+      artist = " ".join(args)
+
+      print(artist)
+
+      client_credentials_manager = SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret)
+      sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+
+      artist_search = sp.search(q=artist, limit = 10)
+      print(artist_search)
+
+      artist_uri = artist_search['tracks']['items'][0]['album']['artists'][0]['external_urls']['uri']
+
+      print(artist_uri)
+
+      
+      results = sp.artist_albums(artist_uri, album_type='album')
+      
+      albums = results['items']
+      while results['next']:
+        results = sp.next(results)
+        albums.extend(results['items'])
+
+      self.my_embed = discord.Embed(title = f"Top 10 Albums of {artist.title()}:")
+
+      for album in albums:
+        self.my_embed.add_field(name = album, value = "\u200b", inline = False)
+
+      await ctx.send(embed = self.my_embed)
+
+
+
+# WHY ISN'T THIS WORKING!?!
