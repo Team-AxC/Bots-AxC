@@ -23,14 +23,12 @@ mod_cmds = "$kick [member name] [reason]\n$ban [member name] [reason]\n$unban [m
 def get_quote():
   response = requests.get("https://zenquotes.io/api/random")
   json_data = json.loads(response.text)
-  quote = json_data[0]['q'] + " -" + json_data[0]['a']
-  return(quote)  
+  return f'{json_data[0]["q"]} -{json_data[0]["a"]}'  
 
 def get_joke():
   response = requests.get("https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist&type=single")
   json_data = json.loads(response.text)
-  joke = json_data["joke"]
-  return (joke)
+  return json_data["joke"]
 
 #commands
 @client.command()
@@ -83,11 +81,11 @@ async def clear(ctx, amount = 2):
 async def kick(ctx, member : discord.Member,*, reason = "*No specific reason provided to by the moderator*"):
   try:
     try:
-      await member.send("You have been kicked from a server , Because:"+reason)
+      await member.send(f'You have been kicked from a server , Because:{reason}')
 
     except:
       pass
-    
+
     await member.kick(reason = reason)
 
   except:
@@ -113,12 +111,12 @@ async def unban(ctx,*,member):
   for banned_entry in banned_users:
     user = banned_entry.user
 
-    if(user.name, user.discriminator) == (member_name,member_disc):
+    if (user.name, user.discriminator) == (member_name,member_disc):
       await ctx.guild.unban(user)
-      await ctx.send(member_name + " has been unbanned!")
+      await ctx.send(f'{member_name} has been unbanned!')
 
     else:
-      await ctx.send(member+" was not found")
+      await ctx.send(f'{member} was not found')
 
 @client.command()
 @commands.has_permissions(ban_members = True)

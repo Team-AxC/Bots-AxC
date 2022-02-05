@@ -65,7 +65,7 @@ class music_cog(commands.Cog):
 
             #try to connect to voice channel if you are not already connected
 
-            if self.vc == "" or not self.vc.is_connected() or self.vc == None:
+            if self.vc == "" or not self.vc.is_connected() or self.vc is None:
                 self.vc = await self.music_queue[0][1].connect()
             else:
                 await self.vc.move_to(self.music_queue[0][1])
@@ -113,21 +113,20 @@ class music_cog(commands.Cog):
 
     @commands.command(name="queue", help="Displays the current songs in queue")
     async def queue(self, ctx):
+        retval = ""
         if len(self.music_queue) <= 50:
-            retval = ""
-            for i in range(0, len(self.music_queue)):
+            for i in range(len(self.music_queue)):
                 retval += self.music_queue[i][0]['title'] + "\n"
 
             print(retval)
 
-            if retval != "":
-                await ctx.send(retval)
-            else:
+            if not retval:
                 await ctx.send("No music in queue")
 
+            else:
+                await ctx.send(retval)
         else:
-            retval = ""
-            for i in range(0, 51):
+            for i in range(51):
                 retval += self.music_queue[i][0]['title'] + "\n"
 
             print(retval)
@@ -241,7 +240,7 @@ class music_cog(commands.Cog):
                 else:
                     await ctx.send("Song added to the queue")
 
-                    for num in range(looping_constant + 1):
+                    for _ in range(looping_constant + 1):
                         self.music_queue.append([song, voice_channel])
 
                     if self.is_playing == False:
@@ -269,7 +268,7 @@ class music_cog(commands.Cog):
                 )
 
             else:
-                for num in range(11):
+                for _ in range(11):
                     self.music_queue.append([song, voice_channel])
 
                 if self.is_playing == False:
@@ -280,7 +279,7 @@ class music_cog(commands.Cog):
         if self.vc != "" and self.vc:
             self.vc.stop()
 
-        for num in range(len(self.music_queue)):
+        for _ in range(len(self.music_queue)):
             self.music_queue.pop()
 
         await ctx.send("Queue Cleared!")

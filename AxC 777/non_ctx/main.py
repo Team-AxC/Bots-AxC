@@ -192,11 +192,10 @@ async def on_message(message):
     if message.content.startswith("$spam "):
         spammer = message.content.replace("$spam ", "")
 
-        for num in range(11):
+        for _ in range(11):
             await message.channel.send(spammer)
 
     if message.content.startswith("$random_spam"):
-        spam1 = "CRISPR-Cas9 Bring me a gene (A Capella Science)"
         spam2 = "Science is Everything"
         spam3 = "Computer Forever"
         spam4 = "e"
@@ -205,27 +204,25 @@ async def on_message(message):
         x = randrange(6)
 
         if x == 1:
-            for i in range(10):
+            spam1 = "CRISPR-Cas9 Bring me a gene (A Capella Science)"
+            for _ in range(10):
                 await message.channel.send(spam1)
 
         elif x == 2:
-            for i in range(10):
+            for _ in range(10):
                 await message.channel.send(spam2)
 
         elif x == 3:
-            for i in range(10):
+            for _ in range(10):
                 await message.channel.send(spam3)
 
         elif x == 4:
-            for i in range(10):
+            for _ in range(10):
                 await message.channel.send(spam4)
 
         elif x == 5:
-            for i in range(10):
+            for _ in range(10):
                 await message.channel.send(spam5)
-
-        else:
-            pass
 
 
 keep_alive()
