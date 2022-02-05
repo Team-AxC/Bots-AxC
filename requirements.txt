@@ -1,5 +1,4 @@
-discord.py
-discord
+py-cord >= 2.0.0b1
 matplotlib
 numpy
 scipy
@@ -10,3 +9,4 @@ wheel
 youtube_dl
 Flask
 weather-api
+spotipy
