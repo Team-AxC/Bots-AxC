@@ -9,3 +9,4 @@ wheel
 youtube_dl
 Flask
 weather-api
+spotipy
