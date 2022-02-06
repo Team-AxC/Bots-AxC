@@ -3,12 +3,15 @@ from discord.ext import commands
 import spotipy
 from spotipy.oauth2 import *
 from youtube_dl import YoutubeDL
+from youtube_search import YoutubeSearch
+from pytube import YouTube as pyt
 import youtube_dl
 from lyrics_extractor import SongLyrics
 import json
 import os
 from random import *
 from sound_tinkerlab import *
+
 
 
 music_cmds = "`?play [audio title]` (the bot will automatically join your voice channel in the server, and the audio will be added to the queue)\n`?lyrics [song title]` (will show the lyrics of the song)\n`?queue` \n`?skip` (to play the next song of the queue)\n`?pause`\n`?resume`\n`?stop`\n`?url [URL of the YouTube video]` (to play the sound of a YouTube video)\n`?loop [audio title] [looping constant (no. of times for the audio to loop)]` (to loop music n number of times)\n`?loop_10 [audio title]` (to loop music 10 times)\n`?disconnect` or `?dc` (to disconnect the bot from the voice channel)\n`?clear` (to clear the queue)\n"
@@ -53,6 +56,7 @@ class music_cog(commands.Cog):
             try:
                 info = ydl.extract_info("ytsearch:%s" % item,
                                         download=False)['entries'][0]
+
             except Exception:
                 return False
 
@@ -118,15 +122,28 @@ class music_cog(commands.Cog):
                 # await ctx.send(
                 #     f"Song added to the queue, just for you {ctx.author.mention}")
 
-                self.personal_embed = discord.Embed(title = "Song added to Queue", color = 0x00ff00)
+                self.personal_embed = discord.Embed(title = "Song added to Queue", color = 0xFF0000)
 
-                self.personal_embed.add_field(name = "Song playing for: " , value = ctx.author.mention)
-                self.personal_embed.set_author(name = "AxC777 Music" , icon_url = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80")
+                results = YoutubeSearch(query, max_results=1).to_dict()
+
+                yt_video_info = pyt(f"https://www.youtube.com/watch?v={results[0]['id']}")
                 
-                await ctx.send(embed = self.personal_embed)
 
                 if self.is_playing == False:
                     await self.play_music()
+
+                self.personal_embed.add_field(name = "Song playing for: " , value = ctx.author.mention)
+
+                self.personal_embed.add_field(name = "Song:" , value = yt_video_info.title, inline = False)
+
+                self.personal_embed.add_field(name = "Duration:" , value = f"{yt_video_info.length // 60} min {yt_video_info.length % 60} s", inline = False)
+
+                self.personal_embed.add_field(name = "Views (on YouTube):" , value = yt_video_info.views, inline = False)
+
+                self.personal_embed.set_author(name = "AxC 777 Music" , icon_url = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80")
+
+                await ctx.send(embed = self.personal_embed)
+                
 
 
     @commands.command(name="queue", help="Displays the current songs in queue")
@@ -162,7 +179,7 @@ class music_cog(commands.Cog):
             await self.play_music()
 
             self.personal_embed = discord.Embed(title = "Skipped the Playing Audio", color = discord.Color.gold())
-            self.personal_embed.set_author(name = "AxC777 Music" , icon_url = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
+            self.personal_embed.set_author(name = "AxC 777 Music" , icon_url = "https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
                 
             await ctx.send(embed = self.personal_embed)
 
@@ -407,36 +424,36 @@ class music_cog(commands.Cog):
 
         await ctx.send(embed = self.my_embed)
 
-#     @commands.command()
-#     async def albums(self, ctx, *args):
-#       artist = " ".join(args)
+    # @commands.command()
+    # async def albums(self, ctx, *args):
+    #   artist = " ".join(args)
 
-#       print(artist)
+    #   print(artist)
 
-#       client_credentials_manager = SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret)
-#       sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+    #   client_credentials_manager = SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret)
+    #   sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 
-#       artist_search = sp.search(q=artist, limit = 10)
-#       print(artist_search)
+    #   artist_search = sp.search(q=artist, limit = 10)
+    #   print(artist_search)
 
-#       artist_uri = artist_search['tracks']['items'][0]['album']['artists'][0]['external_urls']['uri']
+    #   artist_uri = artist_search['items'][0]['album']['artists'][0]['external_urls']['uri']
 
-#       print(artist_uri)
+    #   print(artist_uri)
 
       
-#       results = sp.artist_albums(artist_uri, album_type='album')
+    #   results = sp.artist_albums(artist_uri, album_type='album')
       
-#       albums = results['items']
-#       while results['next']:
-#         results = sp.next(results)
-#         albums.extend(results['items'])
+    #   albums = results['items']
+    #   while results['next']:
+    #     results = sp.next(results)
+    #     albums.extend(results['items'])
 
-#       self.my_embed = discord.Embed(title = f"Top 10 Albums of {artist.title()}:")
+    #   self.my_embed = discord.Embed(title = f"Top 10 Albums of {artist.title()}:")
 
-#       for album in albums:
-#         self.my_embed.add_field(name = album, value = "\u200b", inline = False)
+    #   for album in albums:
+    #     self.my_embed.add_field(name = album, value = "\u200b", inline = False)
 
-#       await ctx.send(embed = self.my_embed)
+    #   await ctx.send(embed = self.my_embed)
 
 
 
