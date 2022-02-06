@@ -407,37 +407,37 @@ class music_cog(commands.Cog):
 
         await ctx.send(embed = self.my_embed)
 
-    @commands.command()
-    async def albums(self, ctx, *args):
-      artist = " ".join(args)
+#     @commands.command()
+#     async def albums(self, ctx, *args):
+#       artist = " ".join(args)
 
-      print(artist)
+#       print(artist)
 
-      client_credentials_manager = SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret)
-      sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
+#       client_credentials_manager = SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret)
+#       sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 
-      artist_search = sp.search(q=artist, limit = 10)
-      print(artist_search)
+#       artist_search = sp.search(q=artist, limit = 10)
+#       print(artist_search)
 
-      artist_uri = artist_search['tracks']['items'][0]['album']['artists'][0]['external_urls']['uri']
+#       artist_uri = artist_search['tracks']['items'][0]['album']['artists'][0]['external_urls']['uri']
 
-      print(artist_uri)
+#       print(artist_uri)
 
       
-      results = sp.artist_albums(artist_uri, album_type='album')
+#       results = sp.artist_albums(artist_uri, album_type='album')
       
-      albums = results['items']
-      while results['next']:
-        results = sp.next(results)
-        albums.extend(results['items'])
+#       albums = results['items']
+#       while results['next']:
+#         results = sp.next(results)
+#         albums.extend(results['items'])
 
-      self.my_embed = discord.Embed(title = f"Top 10 Albums of {artist.title()}:")
+#       self.my_embed = discord.Embed(title = f"Top 10 Albums of {artist.title()}:")
 
-      for album in albums:
-        self.my_embed.add_field(name = album, value = "\u200b", inline = False)
+#       for album in albums:
+#         self.my_embed.add_field(name = album, value = "\u200b", inline = False)
 
-      await ctx.send(embed = self.my_embed)
+#       await ctx.send(embed = self.my_embed)
 
 
 
-# WHY ISN'T THIS WORKING!?!
+# # WHY ISN'T THIS WORKING!?!
