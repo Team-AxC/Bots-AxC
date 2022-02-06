@@ -26,9 +26,10 @@ Many times the code on Replit and on GitHub is different. Although the differenc
 1. `pydub`
 1. `wheel`
 1. `youtube_dl`
-1. `Flask`
-1. `weather-api`
-1. `spotipy`
+2. `youtube-search`
+3. `Flask`
+4. `weather-api`
+5. `spotipy`
 
 All these required libraries can be installed using `pip` or `poetry`.
 
