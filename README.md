@@ -26,7 +26,6 @@ Many times the code on Replit and GitHub is different. Although the difference i
 1. `pydub`
 1. `wheel`
 1. `youtube_dl`
-1. `youtube-search`
 3. `Flask`
 4. `weather-api`
 5. `spotipy`
