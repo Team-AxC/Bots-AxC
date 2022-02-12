@@ -7,7 +7,7 @@ import requests
 import json
 from keep_alive import keep_alive
 from discord.ext.commands import *
-from discord_slash import *
+from discord_slash import SlashCommand,SlashContext
 from pprint import *
 from weather import *
 import random
@@ -53,6 +53,10 @@ def get_joke():
   joke = json_data["joke"]
   return (joke)
 
+def abhishek():
+  personal = discord.Embed(title = "Abhishek Saxena (Creater Himself)", description = "A 13 year Indian boy from Lucknow , who started this bot with a small idea to learn something new")
+  personal.set_thumbnail(url = "")
+
 #commands
 @client.command(aliases = ['Bombyx mori', '*Bombyx mori*'])
 async def Bombyx_mori(ctx):
@@ -76,7 +80,7 @@ async def namaste(ctx, member : discord.Member):
 
 @client.command()
 async def dev_info(ctx):
-  my_embed = discord.Embed(title = "The Creator himself:", description = "Abhishek Saxena")
+  my_embed = discord.Embed(title = "The सिरजनहार himself:", description = "Abhishek Saxena")
   my_embed.add_field(name = "Creator description:", value="A *Homo abhishekus* (new species) with God powers in programming", inline=False)
   my_embed.add_field (name = "Co-Creator:", value = "Chinmay Krishna", inline=False)
   my_embed.add_field(name = "Creator description:", value="A person that has more knowledge in physics than our physics teacher",inline=False)
@@ -180,15 +184,6 @@ async def attachment_link(ctx):
 
   for file_no in range(len(attachments)):
     await ctx.send(f"`{attachments[file_no].url}`")
-
-# HARRY POTTER COMMANDS
-# @client.command()
-# async def btn(ctx):
-    # await ctx.send("hello", components = # [
-    #     [Button(label="Hi", style="3", emoji = "🥴", custom_id="button1"), Button(label="Bye", style="4", emoji = "😔", custom_id="button2")# ]
-    #     ]# )
-    # interaction = await client.wait_for("button_click", check = lambda i: i.custom_id == "button1"# )
-    # await interaction.send(content = "Button clicked!", ephemeral=True)
 
 #tic tac toe cmd
 player1 = ""
@@ -337,132 +332,84 @@ def end_game():
 async def end_tictactoe(ctx):
   send = end_game()
   await ctx.send(send)
+    
+    
+#economic cmds test
+@client.command()
+async def bal(ctx):
+  await open_account(ctx.author)
+  user = ctx.author
+  users = await get_bank_data()
+  target = ctx.author
 
-@slash.slash(name = "Intro", description = "A little intro!")
-async def introduction(ctx: SlashContext):
-  grogu_hello = "https://tenor.com/view/mandalorian-baby-yoda-hello-gif-19013340"
+  wallet_amt = users[str(user.id)]["wallet"] 
+  bank_amt = users[str(user.id)]["bank"] 
 
-  intro_embed = discord.Embed(title = "Essential Introduction", description = "Hey there! I am AxC 777. I am very nerdy 🤓, and made by Abhishek, in collaboration with Chinmay. I am meant to be general purpose with **a lot** of features being worked on and should be added down the road!")
-  intro_embed.add_field(name = "Version 0.4a", value = "Development stage: Beta", inline=False)
-  intro_embed.add_field(name = "GitHub Repo :ninja:", value = "https://github.com/abhisheksaxena11jul/DISCORD-BOT")
-  intro_embed.add_field(name = "Release Month :calendar_spiral:", value = "September 2021", inline = False)
-  intro_embed.add_field(name = "Use the `$assist` command for the list of available commands ", value = "\u200b", inline=False)
-  await ctx.send(grogu_hello)
-  await ctx.send(embed = intro_embed)
-
-@slash.slash(name = "TicTacToe", description = "Starts a TicTacToe game")
-async def tictactoe_slash(ctx: SlashContext, p1: discord.Member, p2: discord.Member):
-    global count
-    global player1
-    global player2
-    global turn
-    global gameOver
-
-    if gameOver:
-        global board
-        board = [":white_large_square:", ":white_large_square:", ":white_large_square:",
-                 ":white_large_square:", ":white_large_square:", ":white_large_square:",
-                 ":white_large_square:", ":white_large_square:", ":white_large_square:"]
-        turn = ""
-        gameOver = False
-        count = 0
-
-        player1 = p1
-        player2 = p2
-
-        # print the board
-        line = ""
-        for x in range(len(board)):
-            if x == 2 or x == 5 or x == 8:
-                line += " " + board[x]
-                await ctx.send(line)
-                line = ""
-            else:
-                line += " " + board[x]
-
-        # determine who goes first
-        num = random.randint(1, 2)
-        if num == 1:
-            turn = player1
-            await ctx.send("It is <@" + str(player1.id) + ">'s turn.")
-        elif num == 2:
-            turn = player2
-            await ctx.send("It is <@" + str(player2.id) + ">'s turn.")
-    else:
-        await ctx.send("A game is already in progress! Finish it before starting a new one.")
-
-@slash.slash(name = "Place", description = "Make your move in TicTacToe", guild_ids = [89071189820055564])
-async def place_ctx(ctx: SlashContext, pos: int):
-    global turn
-    global player1
-    global player2
-    global board
-    global count
-    global gameOver
-
-    if not gameOver:
-        mark = ""
-        if turn == ctx.author:
-            if turn == player1:
-                mark = ":regional_indicator_x:"
-            elif turn == player2:
-                mark = ":o2:"
-            if 0 < pos < 10 and board[pos - 1] == ":white_large_square:" :
-                board[pos - 1] = mark
-                count += 1
-
-                # print the board
-                line = ""
-                for x in range(len(board)):
-                    if x == 2 or x == 5 or x == 8:
-                        line += " " + board[x]
-                        await ctx.send(line)
-                        line = ""
-                    else:
-                        line += " " + board[x]
-
-                checkWinner(winningConditions, mark)
-                print(count)
-                if gameOver == True:
-                    await ctx.send(mark + " wins!")
-                elif count >= 9:
-                    gameOver = True
-                    await ctx.send("It's a tie!")
-
-                # switch turns
-                if turn == player1:
-                    turn = player2
-                elif turn == player2:
-                    turn = player1
-            else:
-                await ctx.send("Be sure to choose an integer between 1 and 9 (inclusive) and an unmarked tile.")
-        else:
-            await ctx.send("It is not your turn.")
-    else:
-        await ctx.send("Please start a new game using the $tictactoe command.")
-
-
-@tictactoe_slash.error
-async def tictactoe_error_slash(ctx: SlashContext, error):
-    print(error)
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please mention 2 players for this command.")
-    elif isinstance(error, commands.BadArgument):
-        await ctx.send("Please make sure to mention/ping players")
-
-@place_ctx.error
-async def place_error_slash(ctx: SlashContext, error):
-    if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send("Please enter a position you would like to mark.")
-    elif isinstance(error, commands.BadArgument):
-      await ctx.send("Please make sure to enter an integer.")
-
-@slash.slash(name = "End Tictactoe", description = "Ends the running TicTacToe game")
-async def end_tictactoe_slash(ctx: SlashContext):
-  send = end_game()
-  await ctx.send(send)
-
+  em = discord.Embed(title = f"{ctx.author.name}'s AxC Account", color = target.color)
+  em.add_field(name = "Wallet Balance", value = wallet_amt)
+  em.add_field(name = "Bank Balance", value = bank_amt)
   
+  if wallet_amt == 1000:
+    reply = "You have not even spent a dollar from the default amount"
+
+  elif wallet_amt > 1000:
+    reply = "You have a decent amount of money in your account"
+
+  elif wallet_amt < 1000:
+    if wallet_amt >= 500:
+      reply = "You have lost a little bit of money from your account"
+
+    else:
+      reply = "You are close to Bankrupt , try spending a little low"
+
+  em.add_field(name = "Acount Status", value = reply, inline = False)
+  em.set_thumbnail(url = target.avatar_url)
+  time = datetime.datetime.utcnow()
+  em.set_footer(text = time, icon_url = "https://i.imgur.com/uZIlRnK.png")
+  await ctx.send(embed = em)
+
+@client.command()
+async def beg(ctx):
+  await open_account(ctx.author)
+  users = await get_bank_data()
+  user = ctx.author
+  wallet_amt = users[str(user.id)]["wallet"] 
+  earnings = random.randrange(101)
+
+  if wallet_amt <= 500:
+    await ctx.send(f"Mr Beast gave you ${earnings}")
+
+    users[str(user.id)]["wallet"] += earnings
+
+    with open("mainbank.json", "w") as f:
+      json.dump(users, f)
+
+  else:
+    await ctx.send("Oh come on man! You already have more than 500 $ in your wallet why do you need to beg")
+
+#chinmay open account is not a command it is a function
+async def open_account(user):
+  users = await get_bank_data()
+
+  if str(user.id) in users:
+    return False
+
+  else:
+    users[str(user.id)] = {}
+    users[str(user.id)]["wallet"] = 1000
+    users[str(user.id)]["bank"] = 0
+
+  with open("mainbank.json", "w") as f:
+    json.dump(users, f)
+
+  return True
+
+async def get_bank_data():
+  with open("mainbank.json", "r") as f:
+    users = json.load(f)
+
+  return users
+
 keep_alive()
 my_secret = os.environ['BOT']
 client.run(my_secret)
