@@ -7,7 +7,7 @@
 ## Add our Bots (Currently in Public Beta, but mostly stable)!
 **AxC 777** (general-purpose, features not locked): https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644972474359&scope=bot 
 
-**AxC 777 Music** (The Music Bot): https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=1644972474359&scope=bot 
+**AxC 777 Music** (The Music Bot): https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=1644972474359&scope=applications.commands%20bot 
 
 ---
 Made with code aid from https://github.com/sohan-py/DiscordWeatherBot (@sohan-py)
