@@ -50,7 +50,6 @@ class slash_cog(commands.Cog):
         }
 
         self.vc = ""
-        self.voice_states = {}
 
     # searching the item on youtube
     def search_yt(self, item):
