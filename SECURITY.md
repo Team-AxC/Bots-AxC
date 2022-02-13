@@ -5,10 +5,12 @@
 | Version            | Supported          |
 | -------            | ------------------ |
 | (Replit Code)      | :white_check_mark: |
+| 0.5a               | ✅                 |
 | 0.4a               | :white_check_mark: |
 | 0.4                | :white_check_mark: |
-| 0.3b               | :white_check_mark: |
 | Earlier versions   | :x:                |
+
+(Version 0.5 not supported, bug fixes in Version 0.5a)
 
 ## Reporting a Vulnerability
 
