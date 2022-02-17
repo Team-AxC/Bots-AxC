@@ -17,7 +17,7 @@ Made with code aid from https://github.com/sohan-py/DiscordWeatherBot (@sohan-py
 Many times the code on Replit and GitHub is different. Although the difference is usually subtle, the reason is that our bots run on Replit and the code of the bots is updated more frequently there. These changes are usually incorporated (if accepted by our team) into this GitHub Repository within a matter of a day or two. Yes, we know that Replit supports GitHub integration (or Git, but still), and we are surely looking forward to use that, but for the time being, we are sticking to this route (for the time being here refers to about a week or two).
 
 ## Requirements (all bots inclusive)
-1. `py-cord >= 2.0.0b1`
+1. `py-cord >= 2.0.0b4`
 1. `matplotlib`
 1. `numpy`
 1. `scipy`
