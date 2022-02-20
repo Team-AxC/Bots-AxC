@@ -6,7 +6,7 @@ import json
 from random import randrange
 from pprint import *
 from weather import *
-from keep_alive import *
+from alive import *
 
 client = discord.Client()
 my_secret = os.environ['TOKEN']
