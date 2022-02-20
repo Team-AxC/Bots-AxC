@@ -33,3 +33,42 @@ Many times the code on Replit and GitHub is different. Although the difference i
 
 All these required libraries can be installed using `pip` or `poetry`.
 
+## MYOB (Make Your Own Bots)
+**Note:** Replace `python` with `python3` and `pip` with `pip3` if Python 2 is already installed on your system
+
+For making your own copy of our bots, you can either:-
+1. Fork the Repository and do your stuff there
+2. Clone the repository (using `git clone https://github.com/abhisheksaxena11jul/DISCORD-BOT.git`, `gh repo clone abhisheksaxena11jul/DISCORD-BOT` or something similar)
+
+Please fill out `secrets.env` with the required values in case of `AxC 777 Music`, and in other cases, please fill out the "secret values" in the bot code itself, where ever written. We are planning to move everything to `secrets.env`, but please wait a while for that.
+
+If you cloned this GitHub Repository, please install the requirements using the following command in the directory in which `requirements.txt` is located (and make sure that Python 3.5 or greater is installed on your system):-
+```
+pip install -U -r requirements.txt
+```
+
+For hosting your own copy of `AxC 777 Music` **with slash commands**, navigate to the `AxC 777 Music` directory and run the following command:-
+```
+python slash.py
+```
+
+For hosting your own copy of `AxC 777 Music` **without slash commands**, navigate to the `AxC 777 Music` directory and run the following command:-
+```
+python main.py
+```
+
+For hosting your own copy of `AxC 777`, navigate to the `AxC 777` directory and run the following command:-
+```
+python main.py
+```
+
+**AND IT'S DONE 🥳🎉** (if you didn't encounter any bugs! 🥲😵‍💫)
+
+**Additional:**
+If you don't want to host the bot on a Flask application, you can remove the following lines from `slash.py`, `main.py` (basically the file you will run on Python):
+```python
+from alive import *
+
+keep_alive()
+```
+
