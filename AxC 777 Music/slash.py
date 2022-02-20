@@ -1,3 +1,4 @@
+# Importing some stuff
 import discord
 from discord.commands import slash_command
 from discord.ext import commands
@@ -12,28 +13,34 @@ import json
 import os
 from random import *
 from sound_tinkerlab import *
-from lyrics_extractor import SongLyrics
+# from lyrics_extractor import SongLyrics
 from alive import *
 import asyncio
+from dotenv import load_dotenv
 
+# Declaring the bot variable
 bot = discord.Bot()
 
-my_secret = os.environ['BOT']
+# Secret Variables thingy#
+load_dotenv('secrets.env')
 
-json_api_key = os.environ['GCS_JSON_API']
-gcs_genius_engineid = os.environ['GCS_GENIUS_ENGINEID']
+my_secret = os.getenv('TOKEN')
 
-sp_clientid = os.environ['SPOTIFY_CLIENTID']
-sp_clientsecret = os.environ['SPOTIFY_CLIENTSECRET']
+json_api_key = os.getenv('json_api_key')
+gcs_genius_engineid = os.getenv('gcs_genius_engineid')
 
-sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
-    client_id=sp_clientid, client_secret=sp_clientsecret))
+sp_clientid = os.getenv('sp_clientid')
+sp_clientsecret = os.getenv('sp_clientsecret')
+
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret))
 
 ################################################################################################
 # Cog #
 ################################################################################################
 
+# Making and inherting a class from commands.Cog
 class slash_cog(commands.Cog):
+    # The extremely standard __init__ function with some variables declared
     def __init__(self, bot):
         self.bot = bot
 
@@ -42,10 +49,13 @@ class slash_cog(commands.Cog):
 
         # 2d array containing [song, channel]
         self.music_queue = []
-        self.YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
+        self.YDL_OPTIONS = {
+                            'format': 'bestaudio',
+                            'noplaylist': 'True'
+                            }
         self.FFMPEG_OPTIONS = {
             'before_options':
-            '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+                '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
             'options': '-vn'
         }
 
@@ -63,6 +73,7 @@ class slash_cog(commands.Cog):
 
         return {'source': info['formats'][0]['url'], 'title': info['title']}
 
+    # What's next?
     def play_next(self):
         if len(self.music_queue) > 0:
             self.is_playing = True
@@ -101,17 +112,17 @@ class slash_cog(commands.Cog):
         else:
             self.is_playing = False
 
-
-    @slash_command(name="play", description="Plays a selected song from YouTube")
+    @slash_command(name="play", description="Plays audio from YouTube")
     async def play(self, ctx, audio: str):
         await ctx.defer()
 
-        voice_channel = ctx.author.voice.channel
-        if voice_channel is None:
+        voice_state = ctx.author.voice
+        if voice_state is None:
             await ctx.respond("Connect to a voice channel!")
         else:
             # if (ctx.author == "Abhishek Saxena ()"):
             #         await ctx.respond("RICKLOCKED 🔐\nNo more rickrolls allowed")
+            voice_channel = ctx.author.voice.channel
 
             song = self.search_yt(audio)
             if type(song) == type(True):
@@ -194,14 +205,14 @@ class slash_cog(commands.Cog):
 
         else:
             retval = ""
-            for i in range(0, 51):
-                retval += self.music_queue[i][0]['title'] + "\n"
+            for i in range(len(self.music_queue)):
+                for _ in range(21):
+                    retval += self.music_queue[i][0]['title'] + "\n"
+                    await ctx.respond(retval)
+                retval = ""
+            await ctx.respond("https://tenor.com/view/squid-game-netflix-egybest-film-squid-gif-23324577")
 
             print(retval)
-
-            ctx.respond(
-                "First 50 songs shown. The queue is too long to be sent at once."
-            )
 
     @slash_command(name="skip", description="Skips the audio being played and plays the next audio in the queue")
     async def skip(self, ctx):
@@ -224,12 +235,12 @@ class slash_cog(commands.Cog):
         # await ctx.voice_client.disconnect()
 
         if self.vc != "":
-            await self.vc.disconnect(force = True)
+            await self.vc.disconnect(force=True)
 
             self.dc_embed = discord.Embed(
-            title="Disconnected 🔇", color=discord.Color.red())
+                title="Disconnected 🔇", color=discord.Color.red())
             self.dc_embed.set_author(
-            name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
+                name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
 
             await ctx.respond(embed=self.dc_embed)
 
@@ -247,19 +258,14 @@ class slash_cog(commands.Cog):
             self.pause_embed = discord.Embed(
                 title="Paused ⏸", color=discord.Color.blue())
             self.pause_embed.set_author(
-            name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
+                name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
 
             await ctx.respond(embed=self.pause_embed)
-            await ctx.respond('https://tenor.com/view/pause-no-homo-whoa-stop-gif-15052205')
 
         else:
             await ctx.respond("No audio being played")
 
         # ctx.voice_client.pause()
-
-        
-
-    
 
     @slash_command(name="resume", description="Resume the audio")
     async def resume(self, ctx):
@@ -269,9 +275,9 @@ class slash_cog(commands.Cog):
             self.vc.resume()
 
             self.resume_embed = discord.Embed(
-            title="Resumed ⏯", color=discord.Color.green())
+                title="Resumed ⏯", color=discord.Color.green())
             self.resume_embed.set_author(
-            name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
+                name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
 
             await ctx.respond(embed=self.resume_embed)
 
@@ -287,25 +293,22 @@ class slash_cog(commands.Cog):
             self.vc.stop()
 
             self.stop_embed = discord.Embed(
-            title="Stopped 🛑", color=discord.Color.red())
+                title="Stopped 🛑", color=discord.Color.red())
             self.stop_embed.set_author(
-            name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
+                name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
 
             await ctx.respond(embed=self.stop_embed)
-            await ctx.respond('https://tenor.com/view/stop-sign-when-you-catch-feelings-note-to-self-stop-now-gif-4850841')
 
         else:
             await ctx.respond("No audio being played")
-
-            
 
     @slash_command(name="url", description="Plays the audio of the provided YouTube URL")
     async def url(self, ctx, url: str):
         await ctx.defer()
         if ctx.author.voice is None:
             await ctx.respond("You're not in a voice channel")
-        voice_channel = ctx.author.voice.channel
 
+        voice_channel = ctx.author.voice.channel
         if ctx.voice_client is None:
             await voice_channel.connect()
 
@@ -315,7 +318,7 @@ class slash_cog(commands.Cog):
         ctx.voice_client.stop()
         FFMPEG_OPTIONS = {
             'before_options':
-            '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
+                '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5',
             'options': '-vn'
         }
         YDL_OPTIONS = {'format': "bestaudio"}
@@ -332,13 +335,14 @@ class slash_cog(commands.Cog):
     @slash_command(name="loop", description="Loop the audio n number of times (n is user-defined)")
     async def loop(self, ctx, looping_constant: int, audio: str):
         await ctx.defer()
-        voice_channel = ctx.author.voice.channel
+        voice_state = ctx.author.voice
 
-        if voice_channel is None:
+        if voice_state is None:
             # you need to be connected so that the bot knows where to go
             await ctx.respond("Connect to a voice channel!")
 
         else:
+            voice_channel = ctx.author.voice.channel
 
             song = self.search_yt(audio)
 
@@ -356,7 +360,6 @@ class slash_cog(commands.Cog):
                 if self.is_playing == False:
                     await self.play_music()
 
-
     @slash_command(name="clear", description="Clears the queue")
     async def clear(self, ctx):
         await ctx.defer()
@@ -365,7 +368,9 @@ class slash_cog(commands.Cog):
 
             for _ in range(len(self.music_queue)):
                 self.music_queue.pop()
+
             x = randrange(1, 3)
+
             await ctx.respond("Queue Cleared!")
             await ctx.respond(
                 "https://tenor.com/view/were-all-clear-yellowstone-were-good-to-go-ready-lets-do-this-gif-17723207" if x == 1 else "https://tenor.com/view/squid-game-netflix-gif-23230821"
@@ -414,8 +419,7 @@ class slash_cog(commands.Cog):
         await ctx.defer()
         results = sp.search(q=artist, limit=10, type="track")
 
-        self.my_embed = discord.Embed(
-            title=f"Top tracks of {artist.title()}", color=0x00ff00)
+        self.my_embed = discord.Embed(title=f"Top tracks of {artist.title()}", color=0x00ff00)
 
         for idx, track in enumerate(results['tracks']['items']):
             min_sec = divmod(track['duration_ms'] / 1000, 60)
@@ -427,7 +431,11 @@ class slash_cog(commands.Cog):
 
         await ctx.respond(embed=self.my_embed)
 
+    @slash_command(name="latency", description="Shows the latency of the bot")
+    async def latency(self, ctx):
+        await ctx.defer()
 
+        await ctx.respond(f"The latency of the bot is {bot.latency * 1000} ms")
 
 
 ################################################################################################
@@ -442,15 +450,16 @@ async def on_ready():
 
     print(f"\n{len(bot.guilds)} servers")
 
+
 async def ch_pr():
-  await bot.wait_until_ready()
-  statuses = [f"{len(bot.guilds)} servers | / cmds", "Rick Roll | / cmds"]
+    await bot.wait_until_ready()
+    statuses = [f"{len(bot.guilds)} servers | / cmds", f"{len(bot.guilds)} servers | ?switch", "Rick Roll | / cmds"]
 
-  while not bot.is_closed():
-    main_status = random.choice(statuses)
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=main_status))
+    while not bot.is_closed():
+        main_status = random.choice(statuses)
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=main_status))
 
-    await asyncio.sleep(10)
+        await asyncio.sleep(10)
 
 bot.loop.create_task(ch_pr())
 
