@@ -5,7 +5,7 @@ from discord_components import *
 import os
 import requests
 import json
-from keep_alive import keep_alive
+from alive import *
 from discord.ext.commands import *
 from discord_slash import SlashCommand,SlashContext
 from pprint import *
