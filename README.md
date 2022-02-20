@@ -31,7 +31,7 @@ Many times the code on Replit and GitHub is different. Although the difference i
 4. `weather-api`
 5. `spotipy`
 
-All these required libraries can be installed using `pip` or `poetry`.
+All these libraries can be installed using `pip` or `poetry`.
 
 ## MYOB (Make Your Own Bots)
 **Note:** Replace `python` with `python3` and `pip` with `pip3` if Python 2 is already installed on your system
