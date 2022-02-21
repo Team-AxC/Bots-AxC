@@ -3,6 +3,7 @@
 [![made-with-python](https://img.shields.io/badge/Made%20in-Python-1f425f.svg?labelColor=2d3339)](https://www.python.org/)
 ![works-with](https://img.shields.io/badge/Works_with-Python_3.5+-21415b?labelColor=2d3339)
 [![Repl.it](https://img.shields.io/badge/Hosted_on-Replit-0d101e.svg?logo=replit&logoColor=white&labelColor=2d3339)](https://replit.com/@Abhisheksaxena4)
+[![Heroku](https://img.shields.io/badge/Hosted%20on-Heroku-3b2f63?logo=heroku&labelColor=2d3339)](https://music-bot-axc-777.herokuapp.com/)
 # The AxC Bot Family
 ## Add our Bots (Currently in Public Semi-Beta {yes, we have made up the term "semi-beta"}, but mostly stable)!
 **AxC 777** (general-purpose, features not locked): https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644972474359&scope=bot%20applications.commands 
