@@ -34,6 +34,7 @@ sp_clientsecret = os.getenv('sp_clientsecret')
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret))
 
+
 ################################################################################################
 # Cog #
 ################################################################################################
@@ -192,7 +193,7 @@ class slash_cog(commands.Cog):
         await ctx.defer()
         if len(self.music_queue) <= 50:
             retval = ""
-            for i in range(0, len(self.music_queue)):
+            for i in range(len(self.music_queue)):
                 retval += self.music_queue[i][0]['title'] + "\n"
 
             print(retval)
@@ -229,7 +230,7 @@ class slash_cog(commands.Cog):
 
             await ctx.respond(embed=self.personal_embed)
 
-    @slash_command(name="disconnect", description="Disconnect the bot from the voice channel")
+    @slash_command(name="disconnect", description="Disconnects the bot from the voice channel")
     async def disconnect(self, ctx):
         await ctx.defer()
         # await ctx.voice_client.disconnect()
@@ -247,7 +248,7 @@ class slash_cog(commands.Cog):
         else:
             await ctx.respond("Bot not in any voice channel")
 
-    @slash_command(name="pause", description="Pause the audio")
+    @slash_command(name="pause", description="Pauses the audio")
     async def pause(self, ctx):
         await ctx.defer()
         # voice = discord.utils.get(bot.voice_clients, guild = ctx.guild)
@@ -267,7 +268,7 @@ class slash_cog(commands.Cog):
 
         # ctx.voice_client.pause()
 
-    @slash_command(name="resume", description="Resume the audio")
+    @slash_command(name="resume", description="Resumes the audio")
     async def resume(self, ctx):
         await ctx.defer()
 
@@ -284,7 +285,7 @@ class slash_cog(commands.Cog):
         else:
             await ctx.respond("No audio being played")
 
-    @slash_command(name="stop", description="Stop the audio")
+    @slash_command(name="stop", description="Stops the audio")
     async def stop(self, ctx):
         await ctx.defer()
         # ctx.voice_client.stop()
@@ -332,7 +333,27 @@ class slash_cog(commands.Cog):
             await ctx.respond("Playing the URL in the voice channel")
             vc.play(source)
 
-    @slash_command(name="loop", description="Loop the audio n number of times (n is user-defined)")
+    # @slash_command(aliases=['h'])
+    # async def help(self, ctx):
+    #     self.my_embed = discord.Embed(title="", description="", color=0x00ff00)
+
+    #     self.my_embed.add_field(name="Regular Cmds:",
+    #                             value=regular_cmds, inline=False)
+
+    #     print(regular_cmds)
+
+    #     self.my_embed.add_field(
+    #         name="Spotify Integrated Cmds", value="`?top_tracks [artist name]`", inline=True)
+
+    #     self.my_embed.add_field(name="Scientific Cmds",
+    #                             value=scientific_cmds, inline=True)
+
+    #     self.my_embed.set_author(
+    #         name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
+
+    #     await ctx.respond(embed=self.my_embed)
+
+    @slash_command(name="loop", description="Loops the audio n number of times (n is user-defined)")
     async def loop(self, ctx, looping_constant: int, audio: str):
         await ctx.defer()
         voice_state = ctx.author.voice
@@ -360,6 +381,29 @@ class slash_cog(commands.Cog):
                 if self.is_playing == False:
                     await self.play_music()
 
+    # @slash_command(aliases = ['l10'])
+    # async def loop_10(self, ctx, *args):
+    #     query = " ".join(args)
+    #     voice_channel = ctx.author.voice.channel
+
+    #     if voice_channel is None:
+    #         #you need to be connected so that the bot knows where to go
+    #         await ctx.respond("Connect to a voice channel!")
+    #     else:
+    #         song = self.search_yt(query)
+
+    #         if type(song) == type(True):
+    #             await ctx.respond(
+    #                 "Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
+    #             )
+
+    #         else:
+    #             for num in range(11):
+    #                 self.music_queue.append([song, voice_channel])
+
+    #             if self.is_playing == False:
+    #                 await self.play_music()
+
     @slash_command(name="clear", description="Clears the queue")
     async def clear(self, ctx):
         await ctx.defer()
@@ -384,37 +428,56 @@ class slash_cog(commands.Cog):
     @slash_command(name="ft", description="Fourier transforms the attachment using the Fast Fourier Transform algorithm")
     async def fft(self, ctx):
         await ctx.defer()
-        if str(ctx.message.attachments) == "[]":
-            await ctx.respond("No attachment")
+        await ctx.respond("Please use the `?ft` command with a `wav`, `mp3` or `ogg` attachment (Discord currently does not support attachments with slash commands)")
 
-        else:
-            split_v1 = str(ctx.message.attachments).split("filename='")[1]
-            filename = str(split_v1).split("' ")[0]
+                
+#     @commands.command()
+#     async def ft(self, ctx):
+#         if str(ctx.message.attachments) == "[]":
+#             await ctx.send("No attachment")
+    
+#         else:
+#             split_v1 = str(ctx.message.attachments).split("filename='")[1]
+#             filename = str(split_v1).split("' ")[0]
+    
+#             allowed_extensions = ('wav', 'mp3', 'ogg')
+#             file_components = filename.split('.')
+    
+#             if file_components[-1] in allowed_extensions:
+#                 await ctx.message.attachments[0].save(fp=f'{filename}'.format(filename))
+    
+#                 print(filename)
+    
+#                 image_title = fft(filename)
+    
+#                 print(image_title)
+    
+#                 fft_image = discord.File(image_title, filename="fft.png")
+    
+#                 await ctx.send(file=fft_image)
+#                 await ctx.send('https://tenor.com/view/fourier-fourier-series-gif-17422885')
+    
+#                 os.remove(image_title)
+#                 os.remove(f"{file_components[0]}.wav")
+    
+#             else:
+#                 await ctx.send("File type not supported")
+    
+    
 
-            allowed_extensions = ('wav', 'mp3', 'ogg')
-            file_components = filename.split('.')
+#     @slash_command()
+#     async def find_artist(self, ctx, *args):
+#       args_list = list(args)
 
-            if file_components[-1] in allowed_extensions:
-                await ctx.message.attachments[0].save(fp=f'{filename}'.format(filename))
+#       sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret))
 
-                print(filename)
+#       if args_list[0] == 'find':
+#         artist_id = args_list[1]
+#         spotify_artist = sp.artist(artist_id)
 
-                image_title = fft(filename)
+#         await ctx.respond(f"**{spotify_artist}** is the Spotify artist_id with {artist_id} ID")
 
-                print(image_title)
-
-                fft_image = discord.File(image_title, filename="fft.png")
-
-                await ctx.respond(file=fft_image)
-                await ctx.respond('https://tenor.com/view/fourier-fourier-series-gif-17422885')
-
-                os.remove(image_title)
-                os.remove(f"{file_components[0]}.wav")
-
-            else:
-                await ctx.respond("File type not supported")
-
-    @slash_command(name="tt", description="Shows the top tracks of an artist")
+    @slash_command(name="top_tracks", description="Shows the top tracks of an artist")
     async def top_tracks(self, ctx, artist: str):
         await ctx.defer()
         results = sp.search(q=artist, limit=10, type="track")
