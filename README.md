@@ -65,7 +65,7 @@ python main.py
 
 **AND IT'S DONE 🥳🎉** (if you didn't encounter any bugs! 🥲😵‍💫)
 
-**Additionally,** if you don't want to host the bot on a Flask application, you can remove the following lines from `slash.py`, `main.py` (basically the file you will run on Python):
+**Additionally,** if you don't want to host the bot on a Flask application, you can remove the following lines of code from `slash.py`, `main.py` (basically the file you will run on Python):
 ```python
 from alive import *
 
