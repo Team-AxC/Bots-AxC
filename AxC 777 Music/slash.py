@@ -119,7 +119,7 @@ class slash_cog(commands.Cog):
             self.is_playing = False
 
     @slash_command(name="play", description="Plays audio from YouTube")
-    async def play(self, ctx, audio: Option(str, "Audio title to search for", required = True)):
+    async def play(self, ctx, audio: Option(str, "The title to search for", required = True)):
         await ctx.defer()
 
         voice_state = ctx.author.voice
