@@ -4,7 +4,7 @@
 
 | Version            | Supported          |
 | -------            | ------------------ |
-| (Replit Code)      | :white_check_mark: |
+| (Replit and Heroku Code)      | :white_check_mark: |
 | 0.5a               | ✅                 |
 | 0.4a               | :white_check_mark: |
 | 0.4                | :white_check_mark: |
