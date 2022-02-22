@@ -1,6 +1,6 @@
 # Importing some stuff
 import discord
-from discord.commands import slash_command
+from discord.commands import slash_command, Option
 from discord.ext import commands
 import spotipy
 from spotipy.oauth2 import *
@@ -13,11 +13,9 @@ import json
 import os
 from random import *
 from sound_tinkerlab import *
-# from lyrics_extractor import SongLyrics
 from alive import *
 import asyncio
 from dotenv import load_dotenv
-
 # Declaring the bot variable
 bot = discord.Bot()
 
@@ -40,6 +38,13 @@ sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid
 ################################################################################################
 
 # Making and inherting a class from commands.Cog
+async def playlist_data():
+    with open("playlists.json", "r") as f:
+        playlists = json.load(f)
+
+    return playlists
+
+
 class slash_cog(commands.Cog):
     # The extremely standard __init__ function with some variables declared
     def __init__(self, bot):
@@ -114,7 +119,7 @@ class slash_cog(commands.Cog):
             self.is_playing = False
 
     @slash_command(name="play", description="Plays audio from YouTube")
-    async def play(self, ctx, audio: str):
+    async def play(self, ctx, audio: Option(str, "Audio title to search for", required = True)):
         await ctx.defer()
 
         voice_state = ctx.author.voice
@@ -137,7 +142,7 @@ class slash_cog(commands.Cog):
                 #     f"Song added to the queue, just for you {ctx.author.mention}")
 
                 self.personal_embed = discord.Embed(
-                    title="Song added to Queue", color=0xFF0000)
+                    title="Audio added to Queue", color=0xFF0000)
 
                 if self.is_playing == False:
                     await self.play_music()
@@ -169,7 +174,7 @@ class slash_cog(commands.Cog):
                 await ctx.respond(embed=self.personal_embed)
 
     @slash_command(name="lyrics", description="Shows the lyrics of a song")
-    async def lyrics(self, ctx, song: str):
+    async def lyrics(self, ctx, song: Option(str, "The song you want to find the lyrics of", required = True)):
         await ctx.defer()
         extract_lyrics = SongLyrics(json_api_key, gcs_genius_engineid)
 
@@ -191,7 +196,7 @@ class slash_cog(commands.Cog):
     @slash_command(name="queue", description="Displays the current songs in queue")
     async def queue(self, ctx):
         await ctx.defer()
-        if len(self.music_queue) <= 50:
+        if len(self.music_queue) <= 21:
             retval = ""
             for i in range(len(self.music_queue)):
                 retval += self.music_queue[i][0]['title'] + "\n"
@@ -304,7 +309,7 @@ class slash_cog(commands.Cog):
             await ctx.respond("No audio being played")
 
     @slash_command(name="url", description="Plays the audio of the provided YouTube URL")
-    async def url(self, ctx, url: str):
+    async def url(self, ctx, url: Option(str, "The YouTube URL you want to play", required = True)):
         await ctx.defer()
         if ctx.author.voice is None:
             await ctx.respond("You're not in a voice channel")
@@ -333,28 +338,8 @@ class slash_cog(commands.Cog):
             await ctx.respond("Playing the URL in the voice channel")
             vc.play(source)
 
-    # @slash_command(aliases=['h'])
-    # async def help(self, ctx):
-    #     self.my_embed = discord.Embed(title="", description="", color=0x00ff00)
-
-    #     self.my_embed.add_field(name="Regular Cmds:",
-    #                             value=regular_cmds, inline=False)
-
-    #     print(regular_cmds)
-
-    #     self.my_embed.add_field(
-    #         name="Spotify Integrated Cmds", value="`?top_tracks [artist name]`", inline=True)
-
-    #     self.my_embed.add_field(name="Scientific Cmds",
-    #                             value=scientific_cmds, inline=True)
-
-    #     self.my_embed.set_author(
-    #         name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=80&q=80")
-
-    #     await ctx.respond(embed=self.my_embed)
-
     @slash_command(name="loop", description="Loops the audio n number of times (n is user-defined)")
-    async def loop(self, ctx, looping_constant: int, audio: str):
+    async def loop(self, ctx, audio: Option(str, "The audio you want to loop", required = True), looping_constant: Option(int, "No. of times you want to loop the audio (defaults to 10)", required = False, default = 10)):
         await ctx.defer()
         voice_state = ctx.author.voice
 
@@ -380,30 +365,7 @@ class slash_cog(commands.Cog):
 
                 if self.is_playing == False:
                     await self.play_music()
-
-    # @slash_command(aliases = ['l10'])
-    # async def loop_10(self, ctx, *args):
-    #     query = " ".join(args)
-    #     voice_channel = ctx.author.voice.channel
-
-    #     if voice_channel is None:
-    #         #you need to be connected so that the bot knows where to go
-    #         await ctx.respond("Connect to a voice channel!")
-    #     else:
-    #         song = self.search_yt(query)
-
-    #         if type(song) == type(True):
-    #             await ctx.respond(
-    #                 "Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
-    #             )
-
-    #         else:
-    #             for num in range(11):
-    #                 self.music_queue.append([song, voice_channel])
-
-    #             if self.is_playing == False:
-    #                 await self.play_music()
-
+                    
     @slash_command(name="clear", description="Clears the queue")
     async def clear(self, ctx):
         await ctx.defer()
@@ -429,56 +391,10 @@ class slash_cog(commands.Cog):
     async def fft(self, ctx):
         await ctx.defer()
         await ctx.respond("Please use the `?ft` command with a `wav`, `mp3` or `ogg` attachment (Discord currently does not support attachments with slash commands)")
-
-                
-#     @commands.command()
-#     async def ft(self, ctx):
-#         if str(ctx.message.attachments) == "[]":
-#             await ctx.send("No attachment")
-    
-#         else:
-#             split_v1 = str(ctx.message.attachments).split("filename='")[1]
-#             filename = str(split_v1).split("' ")[0]
-    
-#             allowed_extensions = ('wav', 'mp3', 'ogg')
-#             file_components = filename.split('.')
-    
-#             if file_components[-1] in allowed_extensions:
-#                 await ctx.message.attachments[0].save(fp=f'{filename}'.format(filename))
-    
-#                 print(filename)
-    
-#                 image_title = fft(filename)
-    
-#                 print(image_title)
-    
-#                 fft_image = discord.File(image_title, filename="fft.png")
-    
-#                 await ctx.send(file=fft_image)
-#                 await ctx.send('https://tenor.com/view/fourier-fourier-series-gif-17422885')
-    
-#                 os.remove(image_title)
-#                 os.remove(f"{file_components[0]}.wav")
-    
-#             else:
-#                 await ctx.send("File type not supported")
-    
-    
-
-#     @slash_command()
-#     async def find_artist(self, ctx, *args):
-#       args_list = list(args)
-
-#       sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid, client_secret=sp_clientsecret))
-
-#       if args_list[0] == 'find':
-#         artist_id = args_list[1]
-#         spotify_artist = sp.artist(artist_id)
-
-#         await ctx.respond(f"**{spotify_artist}** is the Spotify artist_id with {artist_id} ID")
-
+        
+   
     @slash_command(name="top_tracks", description="Shows the top tracks of an artist")
-    async def top_tracks(self, ctx, artist: str):
+    async def top_tracks(self, ctx, artist: Option(str, "The artist you want to find the top tracks of", required = True)):
         await ctx.defer()
         results = sp.search(q=artist, limit=10, type="track")
 
@@ -499,8 +415,7 @@ class slash_cog(commands.Cog):
         await ctx.defer()
 
         await ctx.respond(f"The latency of the bot is {bot.latency * 1000} ms")
-
-
+        
 ################################################################################################
 # Running the bot and stuff #
 ################################################################################################
