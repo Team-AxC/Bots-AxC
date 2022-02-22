@@ -1,7 +1,7 @@
 [![CodeQL](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-success.svg?labelColor=2d3339)](https://github.com/chinmoysir/DISCORD-BOT/graphs/commit-activity)
 [![made-with-python](https://img.shields.io/badge/Made%20in-Python-1f425f.svg?logo=python&labelColor=2d3339)](https://www.python.org/)
-![works-with](https://img.shields.io/badge/Works_with-Python_3.6+-21415b?logo=python&labelColor=2d3339)
+![works-with](https://img.shields.io/badge/Works_with-Python_3.6_|_3.7_|_3.8_|_3.9_|_3.10-21415b?logo=python&labelColor=2d3339)
 [![Repl.it](https://img.shields.io/badge/Hosted_on-Replit-0d101e.svg?logo=replit&logoColor=white&labelColor=2d3339)](https://replit.com/@Abhisheksaxena4)
 [![Heroku](https://img.shields.io/badge/Hosted%20on-Heroku-3b2f63?logo=heroku&labelColor=2d3339)](https://music-bot-axc-777.herokuapp.com/)
 # The AxC Bot Family
