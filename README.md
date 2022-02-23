@@ -43,7 +43,7 @@ For making your own copy of our bots, you can either:-
 
 Please fill out `secrets.env` with the required values in the case of `AxC 777 Music`, and in other cases, please fill out the "secret values" in the bot code itself, where ever written. We are planning to move everything to `secrets.env`, but please wait a while for that.
 
-If you cloned this GitHub Repository, please install the requirements using the following command in the directory in which `requirements.txt` is located (and make sure that Python 3.5 or greater is installed on your system):-
+If you cloned this GitHub Repository, please install the requirements using the following command in the directory in which `requirements.txt` is located (and make sure that Python 3.6 or greater is installed on your system):-
 ```
 pip install -U -r requirements.txt
 ```
