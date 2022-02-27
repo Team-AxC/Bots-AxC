@@ -1,6 +1,7 @@
 # Importing some stuff
 import discord
 from discord.commands import slash_command, Option
+from discord.ui import Button, View
 from discord.ext import commands
 import spotipy
 from spotipy.oauth2 import *
@@ -38,12 +39,6 @@ sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=sp_clientid
 ################################################################################################
 
 # Making and inherting a class from commands.Cog
-async def playlist_data():
-    with open("playlists.json", "r") as f:
-        playlists = json.load(f)
-
-    return playlists
-
 
 class slash_cog(commands.Cog):
     # The extremely standard __init__ function with some variables declared
@@ -133,7 +128,7 @@ class slash_cog(commands.Cog):
             song = self.search_yt(audio)
             if type(song) == type(True):
                 await ctx.respond(
-                    "Could not play the song. Incorrect format, try another keyword. This could be due to a playlist or livestream format."
+                    "Could not play the audio. Incorrect format, try another keyword. This could be due to a playlist or livestream format, or because of some internal error."
                 )
             else:
                 self.music_queue.append([song, voice_channel])
@@ -183,6 +178,8 @@ class slash_cog(commands.Cog):
 
             my_embed = discord.Embed(title=lyrics['title'],
                                      description=lyrics['lyrics'])
+            
+            await ctx.respond("Here are the lyrics!")
 
         except Exception:
             error = "Lyrics not found. Try reframing the song title and/or check if the song even exists or you or I have ascended into a parallel universe (or multiple for that matter). If that's the case, we're trying our best to contact Emu Lords to give their nails to scrape this configuration off.\n\n**Thanks!**\nTeam AxC"
@@ -190,7 +187,7 @@ class slash_cog(commands.Cog):
             my_embed = discord.Embed(title=":octagonal_sign:  Error",
                                      description=error)
 
-        await ctx.respond("Here are the lyrics!")
+
         await ctx.respond(embed=my_embed)
 
     @slash_command(name="queue", description="Displays the current songs in queue")
@@ -338,7 +335,7 @@ class slash_cog(commands.Cog):
             await ctx.respond("Playing the URL in the voice channel")
             vc.play(source)
 
-    @slash_command(name="loop", description="Loops the audio n number of times (n is user-defined)")
+    @slash_command(name="loop", description="Loops audio n number of times (n is user-defined, defaults to 10)")
     async def loop(self, ctx, audio: Option(str, "The audio you want to loop", required = True), looping_constant: Option(int, "No. of times you want to loop the audio (defaults to 10)", required = False, default = 10)):
         await ctx.defer()
         voice_state = ctx.author.voice
@@ -358,13 +355,42 @@ class slash_cog(commands.Cog):
                 )
 
             else:
-                await ctx.respond("Song added to the queue")
-
                 for _ in range(looping_constant + 1):
                     self.music_queue.append([song, voice_channel])
 
                 if self.is_playing == False:
                     await self.play_music()
+                
+                self.personal_embed = discord.Embed(title="Loopin' it up! :musical_note: :loop:", color=0xFF0000)
+
+                results = YoutubeSearch(audio, max_results=1).to_dict()
+
+                yt_link = f"https://www.youtube.com/watch?v={results[0]['id']}"
+
+                yt_video_info = pyt(yt_link)
+
+                self.personal_embed.add_field(
+                    name=":adult: Audio playing for:", value=ctx.author.mention)
+
+                self.personal_embed.add_field(
+                    name=":musical_note: Audio:", value=f"[{yt_video_info.title}]({yt_link})", inline=False)
+
+                self.personal_embed.add_field(name=":hourglass_flowing_sand: Duration:",
+                                              value=f"{(yt_video_info.length * looping_constant) // 60} min {(yt_video_info.length * looping_constant) % 60} s total\n({yt_video_info.length // 60} min {yt_video_info.length % 60} s each)", inline=False)
+
+                self.personal_embed.add_field(
+                    name=":eye: Views (on YouTube):", value=f"{format(int(yt_video_info.views),',d')}", inline=False)
+
+                self.personal_embed.set_thumbnail(
+                    url=yt_video_info.thumbnail_url)
+
+                self.personal_embed.set_author(
+                    name="AxC 777 Music", icon_url="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80")
+
+                await ctx.respond(embed=self.personal_embed)
+
+
+
                     
     @slash_command(name="clear", description="Clears the queue")
     async def clear(self, ctx):
