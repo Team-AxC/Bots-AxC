@@ -177,7 +177,7 @@ class slash_cog(commands.Cog):
             lyrics = extract_lyrics.get_lyrics(song)
 
             my_embed = discord.Embed(title=lyrics['title'],
-                                     description=lyrics['lyrics'])
+                                     description=lyrics['lyrics'], color = discord.Color.blurple())
             
             await ctx.respond("Here are the lyrics!")
 
@@ -185,7 +185,7 @@ class slash_cog(commands.Cog):
             error = "Lyrics not found. Try reframing the song title and/or check if the song even exists or you or I have ascended into a parallel universe (or multiple for that matter). If that's the case, we're trying our best to contact Emu Lords to give their nails to scrape this configuration off.\n\n**Thanks!**\nTeam AxC"
 
             my_embed = discord.Embed(title=":octagonal_sign:  Error",
-                                     description=error)
+                                     description=error, color = discord.Color.red())
 
 
         await ctx.respond(embed=my_embed)
