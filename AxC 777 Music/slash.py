@@ -351,7 +351,7 @@ class slash_cog(commands.Cog):
 
             if type(song) == type(True):
                 await ctx.respond(
-                    "Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format."
+                    "Could not play the song. Incorrect format try another keyword. This could be due to a playlist or a livestream format or because of some internal error."
                 )
 
             else:
