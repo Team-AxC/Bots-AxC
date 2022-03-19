@@ -48,14 +48,9 @@ If you cloned this GitHub Repository, please install the requirements using the 
 pip install -U -r requirements.txt
 ```
 
-For hosting your own copy of `AxC 777 Music` **with slash commands**, navigate to the `AxC 777 Music` directory and run the following command:-
+For hosting your own copy of `AxC 777 Music` **with slash commands**, navigate to the `AxC 777 Music\slash` directory and run the following command:-
 ```
-python slash.py
-```
-
-For hosting your own copy of `AxC 777 Music` **without slash commands**, navigate to the `AxC 777 Music` directory and run the following command:-
-```
-python main.py
+python setup.py
 ```
 
 For hosting your own copy of `AxC 777`, navigate to the `AxC 777` directory and run the following command:-
