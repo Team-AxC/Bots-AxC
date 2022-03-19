@@ -2,7 +2,7 @@ import discord
 from discord import ApplicationContext
 from discord.commands import slash_command, Option
 from discord.ext import commands
-from task_code import play, spotify_and_song_info, scientific_and_esoskeric, miscellaneous, dashboard
+from task_code import play, spotify_and_song_info, scientific_and_esoskeric, miscellaneous
 from alive import *
 from dotenv import load_dotenv
 import os
@@ -79,12 +79,6 @@ class main_slash_cog(commands.Cog):
     @slash_command(name="ft", description="Fourier transforms the attachment using the Fast Fourier Transform algorithm")
     async def fft(self, ctx: ApplicationContext, file: Option(discord.Attachment, "The file you want to Fourier Transform", required = True)):
         await self.scientific_and_esoskeric.fft(ctx, file)
-
-    # dashboard.py file, dashboard class
-    @slash_command(name="dashboard", description="The AxC 777 Music Dashboard!", guild_ids = [889071189820055564])
-    async def dashboard(self, ctx: ApplicationContext):
-        dashboard_class_instance = dashboard.dashboard(ctx, self.play_thingy)
-        await dashboard_class_instance.dashboard_method()
 
 ################################################################################################
 # Running the bot and stuff #
