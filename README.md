@@ -48,10 +48,15 @@ If you cloned this GitHub Repository, please install the requirements using the 
 pip install -U -r requirements.txt
 ```
 
-For hosting your own copy of `AxC 777 Music` **with slash commands**, navigate to the `AxC 777 Music\slash` directory and run the following command:-
+For hosting your own copy of `AxC 777 Music` (with slash commands), navigate to the `AxC 777 Music\slash` directory and run the following command:-
 ```
 python setup.py
 ```
+Note that it can take upto about an hour to register slash commands globally, therefore if you are testing your bot(s) on just one server or some collection of servers, please edit the following lines of code of _each and every_ slash command:-
+```python
+@slash_command(name = "command_name", description = "command_description", guild_ids = [server_id_of_server_1, server_id_of_server_2]
+```
+This should give an almost instantaneous access to the slash commands of the bot(s) in the mentioned servers.
 
 For hosting your own copy of `AxC 777`, navigate to the `AxC 777` directory and run the following command:-
 ```
