@@ -12,8 +12,7 @@ import asyncio
 bot = discord.Bot()
 
 load_dotenv('secret.env')
-# my_secret = os.getenv('TOKEN')
-my_secret = "ODg1Nzg3OTUxNDgzNzMxOTk4.YTsIUA.tyPpV16YF3VJSg_IeLeCO-jPF6M"
+my_secret = os.getenv('TOKEN')
 
 
 class main_slash_cog(commands.Cog):
