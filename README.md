@@ -18,21 +18,7 @@ Made with code aid from https://github.com/sohan-py/DiscordWeatherBot (@sohan-py
 Many times the code on Replit/Heroku and GitHub is different. Although the difference is usually subtle, the reason is that our bots run on Replit (now Heroku as well) and the code of the bots is updated more frequently there. These changes are usually incorporated (if accepted by our team) into this GitHub Repository within a matter of a day or two. Yes, we know that Replit supports GitHub integration (or Git, but still), and we are surely looking forward to use that, but for the time being, we are sticking to this route (for the time being here refers to about a week or two).
 
 ## Requirements (all bots inclusive)
-1. `py-cord >= 2.0.0b4`
-1. `matplotlib`
-1. `numpy`
-1. `scipy`
-1. `PyNaCl`
-1. `lyrics-extractor`
-1. `pydub`
-1. `wheel`
-1. `youtube_dl`
-2. `youtube-search`
-3. `Flask`
-4. `weather-api`
-5. `spotipy`
-
-All these libraries can be installed using `pip` or `poetry`.
+The required libraries are listed in `requirements.txt`. All these libraries can be installed using `pip`.
 
 ## MYOB (Make Your Own Bots)
 **Note:** Replace `python` with `python3` and `pip` with `pip3` if Python 2 is already installed on your system
