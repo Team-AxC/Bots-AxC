@@ -6,7 +6,7 @@
 [![Heroku](https://img.shields.io/badge/Hosted%20on-Heroku-3b2f63?logo=heroku&labelColor=2d3339)](https://music-bot-axc-777.herokuapp.com/)
 # The AxC Bot Family
 ## Add our Bots (Currently in Public Semi-Beta {yes, we made up the term "semi-beta"}, but mostly stable)!
-**AxC 777** (general-purpose, features not locked): https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644972474359&scope=bot%20applications.commands 
+**AxC 777** (general-purpose, features not locked): https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644971949559&scope=bot%20applications.commands 
 
 **AxC 777 Music** (The Music Bot): https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=389297593664&scope=bot%20applications.commands 
 
