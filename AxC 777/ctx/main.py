@@ -67,8 +67,8 @@ async def intro(ctx):
   grogu_hello = "https://tenor.com/view/mandalorian-baby-yoda-hello-gif-19013340"
 
   intro_embed = discord.Embed(title = "Essential Introduction", description = "Hey there! I am AxC 777. I am very nerdy 🤓, and made by Abhishek, in collaboration with Chinmay. I am meant to be general purpose with **a lot** of features being worked on and should be added down the road!")
-  intro_embed.add_field(name = "Version 0.4a", value = "Development stage: Beta", inline=False)
-  intro_embed.add_field(name = "GitHub Repo :ninja:", value = "https://github.com/abhisheksaxena11jul/DISCORD-BOT")
+  intro_embed.add_field(name = "Version 0.5a", value = "Development stage: Semi-Beta", inline=False)
+  intro_embed.add_field(name = "GitHub Repo :ninja:", value = "https://github.com/Team-AxC/Bots-AxC")
   intro_embed.add_field(name = "Release Month :calendar_spiral:", value = "September 2021", inline = False)
   intro_embed.add_field(name = "Use the `$assist` command for the list of available commands ", value = "\u200b", inline=False)
   await ctx.send(grogu_hello)
