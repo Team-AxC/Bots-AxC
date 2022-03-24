@@ -51,7 +51,7 @@ python main.py
 
 **AND IT'S DONE 🥳🎉** (if you didn't encounter any bugs! 🥲😵‍💫)
 
-**Additionally,** if you don't want to host the bot on a Flask application, you can remove the following lines of code from `slash.py` (for AxC 777 Music) and `main.py` (for AxC 777):
+**Additionally,** if you don't want to host the bot on a Flask application, you can remove the following lines of code from `main_slash.py` (for AxC 777 Music) and `main.py` (for AxC 777):
 ```python
 from alive import *
 
