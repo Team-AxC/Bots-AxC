@@ -85,7 +85,6 @@ class play_stuff:
             self.is_playing = False
 
     async def play_from_query(self, ctx: ApplicationContext, audio: str):
-
         await ctx.defer()
 
         voice_state = ctx.author.voice
@@ -142,7 +141,6 @@ class play_stuff:
 
 
     async def play_from_url(self, ctx: ApplicationContext, url: str):
-
         await ctx.defer()
         if ctx.author.voice is None:
             await ctx.respond("You're not in a voice channel")
