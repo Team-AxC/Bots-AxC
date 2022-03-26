@@ -2,8 +2,8 @@
 The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644971949559&scope=bot%20applications.commands) and [`AxC 777 Music`](https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=389297593664&scope=bot%20applications.commands). The former is general-purpose, while the latter is a music bot, which streams audio from YouTube.
 
 ## Invites
-- **AxC 777**: https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644971949559&scope=bot%20applications.commands
-- **AxC 777 Music**: https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=389297593664&scope=bot%20applications.commands
+- **AxC 777**: <https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644971949559&scope=bot%20applications.commands>
+- **AxC 777 Music**: <https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=389297593664&scope=bot%20applications.commands>
 
 ## Features
 ### AxC 777 (command-prefix `$`)
@@ -36,7 +36,7 @@ The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](h
 
 
 ## Developer Contact
-For any personal queries/issues, contact us at thecuriousminds1729@gmail.com
+For any personal queries/issues, contact us at `thecuriousminds1729@gmail.com`.
 
 Please keep in mind that we are a small team of high schoolers, therefore we barely get enough time for this project. We try our best to keep up, but please don't expect an extremely rapid response from us. But Don't Worry, we will keep adding new features and looking for bugs! 
 
