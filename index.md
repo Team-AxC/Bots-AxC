@@ -1,8 +1,5 @@
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/Team-AxC/Bots-AxC/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+# Welcome to the AxC Bot Family!
+The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644971949559&scope=bot%20applications.commands) and [`AxC 777 Music`](https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=389297593664&scope=bot%20applications.commands). The former is general-purpose, while the latter is a music bot, which streams audio from YouTube.
 
 ### Markdown
 
