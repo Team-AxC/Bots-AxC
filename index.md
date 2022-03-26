@@ -19,7 +19,7 @@ The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](h
 - Scientific and Nerdy: `$convert [unit 1] [unit 2]`
 - Miscellaneous: `$latency`
 
-## AxC 777 Music (All slash commands)
+### AxC 777 Music (All slash commands)
 - `/play [audio title]`
 - `/loop [audio title] [looping_constant (defaults to 10)]`
 - `/url [YouTube URL]`
