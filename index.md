@@ -21,7 +21,7 @@ The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](h
 
 ## AxC 777 Music (All slash commands)
 - `/play [audio title]`
-- `/loop [audio title] [looping_constant (defaults to 10)`
+- `/loop [audio title] [looping_constant (defaults to 10)]`
 - `/url [YouTube URL]`
 - `/disconnect`
 - `/stop`
