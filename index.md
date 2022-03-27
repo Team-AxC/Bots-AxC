@@ -33,6 +33,7 @@ The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](h
 - `/lyrics [song title]`
 - `/ft [attachment]` (Fourier Transforms the file using the Fast Fourier Transform Algorithm)
 - `/top_tracks [artist]`
+- `/latency`
 
 
 ## Developer Contact
