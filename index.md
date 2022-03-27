@@ -5,7 +5,7 @@ The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](h
 - **AxC 777**: <https://discord.com/api/oauth2/authorize?client_id=889098056606298172&permissions=1644971949559&scope=bot%20applications.commands>
 - **AxC 777 Music**: <https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=389297593664&scope=bot%20applications.commands>
 
-## Features
+## Commands
 ### AxC 777 (command-prefix `$`)
 - Moderation Commands: `$kick [user]`, `$ban [user]`, `$unban [user]`, `$warn [user]`, `$clear [no. of messages in that channel]`
 - Fun commands: `$joke`, `$devinfo`, `$Bombyx_mori`
