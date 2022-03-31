@@ -35,6 +35,9 @@ The AxC Bot Family currently comprises of two Discord Bots, namely [`AxC 777`](h
 - `/top_tracks [artist]`
 - `/latency`
 
+## Outages/Alerts
+Please see [Alerts.md](https://github.com/Team-AxC/Bots-AxC/blob/main/Alerts.md). Major alerts are usually also posted on README.md (basically the information you see on opening our GitHub Repository)
+
 
 ## Developer Contact
 For any personal queries/issues, contact us at `thecuriousminds1729@gmail.com`.
