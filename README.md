@@ -11,10 +11,9 @@
 **AxC 777 Music** (The Music Bot): https://discord.com/api/oauth2/authorize?client_id=885787951483731998&permissions=389297593664&scope=bot%20applications.commands 
 
 ---
-🚨**EMERGENCY ALERT:** AxC 777 Music will not function till 31st March 2022 GMT because of some problems with Heroku Hosting. Please be patient. Services will resume on 1st April 2022, give or take some hours.
-
-**Note:** The text-based commands of AxC 777 Music may still function (e.g. `?switch` and `?ft`), because they are hosted using Replit. However, they do basically nothing (except for the `?ft` command, of course!).
-
+## 🚨**EMERGENCY ALERTS:** 
+1. AxC 777 Music will not function till 31st March 2022 GMT because of some problems with Heroku Hosting. Please be patient. Services will resume on 1st April 2022, give or take some hours. The text-based commands of AxC 777 Music may still function (e.g. `?switch` and `?ft`), because they are hosted using Replit. However, they do basically nothing (except for the `?ft` command, of course!).
+2. AxC 777 Music is temporarily down because of too many requests to the Discord API! Generally this is a matter of some of hours or at maximum a day or two, so _please be patient_.
 ---
 
 Made with code aid from https://github.com/sohan-py/DiscordWeatherBot (@sohan-py)
