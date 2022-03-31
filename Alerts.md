@@ -6,7 +6,7 @@
 | `On`   | Ongoing |
 | `O`    |  Old      |
 
-## 31st March 2022 (ID: `discord_API_HTTPException_429_002.1`, `R`, `On`)
+## 31 March 2022 (ID: `discord_API_HTTPException_429_002.1`, `R`, `On`)
 **🛑⚠️ ALERT:** AxC 777 is temporarily down because of too many requests to the Discord API! Generally this is a matter of some of hours or at maximum a day or two, so _please be patient_.
 
 
