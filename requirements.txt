@@ -43,7 +43,7 @@ Pillow==9.0.1
 platformdirs==2.5.1
 prompt-toolkit==3.0.28
 pure-eval==0.2.2
-py-cord==2.0.0b5
+py-cord==2.0.0rc1
 pycodestyle==2.8.0
 pycparser==2.21
 pydub==0.25.1
