@@ -24,7 +24,7 @@ The required libraries for running your own copy of the bots are listed in `requ
 
 For making your own copy of our bots, you can either:-
 1. Fork the Repository and do your stuff there
-2. Clone the repository (using `git clone https://github.com/abhisheksaxena11jul/DISCORD-BOT.git`, `gh repo clone abhisheksaxena11jul/DISCORD-BOT` or something similar)
+2. Clone the repository (using `git clone https://github.com/Team-AxC/Bots-AxC.git`, `gh repo clone Team-AxC/Bots-AxC` or something similar)
 
 Please fill out `secrets.env` with the required values in the case of `AxC 777 Music`, and in other cases, please fill out the "secret values" in the bot code itself, where ever written. We are planning to move everything to `secrets.env`, but please wait a while for that.
 
