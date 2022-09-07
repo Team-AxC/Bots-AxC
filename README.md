@@ -1,4 +1,5 @@
 [![CodeQL](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/chinmoysir/DISCORD-BOT/actions/workflows/codeql-analysis.yml)
+[![DeepSource](https://deepsource.io/gh/Team-AxC/Bots-AxC.svg/?label=active+issues&show_trend=true&token=J1H-XCL15k2ksHKjXhVmvOWR)](https://deepsource.io/gh/Team-AxC/Bots-AxC/?ref=repository-badge)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-success.svg?labelColor=2d3339)](https://github.com/chinmoysir/DISCORD-BOT/graphs/commit-activity)
 [![made-with-python](https://img.shields.io/badge/Made%20in-Python-1f425f.svg?logo=python&labelColor=2d3339)](https://www.python.org/)
 ![compatibility](https://img.shields.io/badge/Compatibility-Python_3.8.x_thru_3.10.x-21415b?logo=python&labelColor=2d3339)
