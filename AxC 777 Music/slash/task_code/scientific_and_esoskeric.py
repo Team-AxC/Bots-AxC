@@ -37,11 +37,11 @@ class scientific_and_esoskeric:
         if target_extension == "wav":
             if inp_array[-1] == "mp3":
                 sound = AudioSegment.from_mp3(input_fp)
-                sound.export(output_file, format=target_extension)
-
+                
             elif inp_array[-1] == "ogg":
                 sound = AudioSegment.from_ogg(input_fp)
-                sound.export(output_file, format=target_extension)
+                
+            sound.export(output_file, format=target_extension)
 
 
     def fft_worker(self, filename: str) -> str:
