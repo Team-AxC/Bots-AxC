@@ -26,7 +26,7 @@ jedi==0.18.1
 Jinja2==3.0.3
 jsonpickle==0.9.6
 kiwisolver==1.3.2
-lxml==4.8.0
+lxml==4.9.2
 lyrics-extractor==3.0.1
 MarkupSafe==2.1.0
 matplotlib==3.5.1
