@@ -14,4 +14,4 @@ No liability or warranty is provided in any case.
 a) Depending upon the circumstances, charges may be levied on commercial use. \
 b) This license may be updated any time without any prior notice. You are requested to comply with the newest revision of the license and ignore earlier versions.
 
-**Violation of any pact or section of this license may call for legal action.**
+**Violation of any pact or section of this license may call for legal action under the jurisdiction of the Republic of India, or as the case may be.**
