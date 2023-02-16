@@ -65,7 +65,7 @@ traitlets==5.1.1
 urllib3==1.26.8
 wcwidth==0.2.5
 weather-api==1.0
-Werkzeug==2.0.3
+Werkzeug==2.2.3
 yarl==1.7.2
 youtube-dl>=2021.12.17
 youtube-search==2.1.0
